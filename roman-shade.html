@@ -200,20 +200,23 @@ const COLORS = FAMILIES.flatMap(([fam, list]) => list.map(([name, hex]) => ({fam
 const ROOMS = ["Living Room","Nursery","Kitchen","Dining Room","Bedroom","Bathroom","Home Office","Other"];
 
 const FOLDS = [
-  ["seamless","Seamless Flat","Smooth uninterrupted face"],
-  ["classic","Classic Flat","Subtle horizontal seam lines"],
-  ["relaxed","Relaxed","Soft curved bottom hem"],
-  ["hobbled","Hobbled","Cascading layered folds"],
+  ["seamless","Seamless Flat","Smooth uninterrupted face","Basic"],
+  ["classic","Classic Flat","Subtle horizontal seam lines","+15%"],
+  ["relaxed","Relaxed","Soft curved bottom hem","+10%"],
+  ["hobbled","Hobbled","Cascading layered folds","+30%"],
 ];
+const FOLD_PCT = { seamless:0, classic:15, relaxed:10, hobbled:30 };
 const LIFTS = [
-  ["cordless","Cordless","Raise by hand, child-safe", 0],
-  ["loop","Continuous Cord Loop","Side chain loop", 23],
+  ["cordless","Cordless","Raise by hand, child-safe","Free"],
+  ["loop","Continuous Cord Loop","Side chain loop","+$15.00"],
 ];
+const LIFT_PRICE = { cordless:0, loop:15 };
 const LINERS = [
-  ["none","No Liner","Fabric only, maximum light", 0],
-  ["white","Light Filtering Liner","Diffused glow + daytime privacy", 1.52],
-  ["blackout","Blackout Liner","Blocks 99%+ of light", 3.03],
+  ["none","No Liner","Fabric only, maximum light","Free"],
+  ["white","White Liner","Diffused glow + daytime privacy","+10%"],
+  ["blackout","Blackout Liner","Blocks 99%+ of light","+25%"],
 ];
+const LINER_PCT = { none:0, white:10, blackout:25 };
 
 const EIGHTHS = ["0","1/8","1/4","3/8","1/2","5/8","3/4","7/8"];
 const LIMITS = { wMin:18, wMax:105, hMin:24, hMax:105 };
@@ -318,11 +321,11 @@ function optImg(kind, val){
 /* ================= BUILD UI ================= */
 
 function optButtons(group, items, {prices=false} = {}){
-  return `<div class="optrow" role="group">` + items.map(([val, t, d, price]) =>
+  return `<div class="optrow" role="group">` + items.map(([val, t, d, priceLabel]) =>
     `<button type="button" class="opt" data-group="${group}" data-val="${val}" aria-pressed="${state[group]===val}">
        <span class="opt-img" aria-hidden="true">${optImg(group, val)}</span>
        <span class="t">${t}</span><span class="d">${d}</span>
-       ${prices ? `<span class="p">${price ? "+"+fmt$(price)+(group==="liner"?" /sq ft":"") : "Free"}</span>` : ""}
+       ${prices && priceLabel ? `<span class="p">${priceLabel}</span>` : ""}
      </button>`).join("") + `</div>`;
 }
 
@@ -364,7 +367,7 @@ $("#steps").innerHTML = [
     </div>`),
 
   stepCard(4,"Fold style","The fold sets the character of the shade — from tailored flat to layered hobbled.",
-    optButtons("fold", FOLDS)),
+    optButtons("fold", FOLDS, {prices:true})),
 
   stepCard(5,"Fabric color","120 colors across 10 families. Free swatches available before you buy.",
     `<div class="color-tools">
@@ -450,15 +453,20 @@ $("#cta").addEventListener("click", () => {
 
 function priceParts(){
   const sqft = inchesW() * inchesH() / 144;
+  const sizeAdj = Math.max(0, Math.round(sqft * 3.6 * 100) / 100);
+  const subtotal = BASE_PRICE + sizeAdj;   // percentage options apply to base + size
+  const foldPct  = FOLD_PCT[state.fold];
+  const linerPct = LINER_PCT[state.liner];
+  const fold  = FOLDS.find(f => f[0] === state.fold);
   const lift  = LIFTS.find(l => l[0] === state.lift);
   const liner = LINERS.find(l => l[0] === state.liner);
   return [
     ["Base price","Starting price before size and options", BASE_PRICE],
-    ["Size adjustment", fmtSize(), Math.max(0, Math.round(sqft * 3.6 * 100) / 100)],
+    ["Size adjustment", fmtSize(), sizeAdj],
     ["Fabric", colorOf() ? colorOf().name : "Not selected", 0],
-    ["Fold style", FOLDS.find(f => f[0] === state.fold)[1], 0],
-    ["Lift system", lift[1], lift[3]],
-    ["Lining", liner[1], Math.round(liner[3] * sqft * 100) / 100],
+    ["Fold style", fold[1] + (foldPct ? ` (+${foldPct}%)` : " (basic)"), Math.round(subtotal * foldPct) / 100],
+    ["Lift system", lift[1], LIFT_PRICE[state.lift]],
+    ["Lining", liner[1] + (linerPct ? ` (+${linerPct}%)` : ""), Math.round(subtotal * linerPct) / 100],
   ];
 }
 
