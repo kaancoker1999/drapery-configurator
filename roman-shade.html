@@ -205,30 +205,14 @@ const FOLDS = [
   ["relaxed","Relaxed","Soft curved bottom hem"],
   ["hobbled","Hobbled","Cascading layered folds"],
 ];
-const LIGHTS = [
-  ["sheer","Sheer","Bright and airy"],
-  ["semisheer","Semi-Sheer","Soft view-through"],
-  ["filtering","Light Filtering","Warm diffused glow"],
-  ["darkening","Room Darkening","Substantial dimming"],
-  ["blackout","Blackout","Near-total darkness"],
-];
 const LIFTS = [
   ["cordless","Cordless","Raise by hand, child-safe", 0],
   ["loop","Continuous Cord Loop","Side chain loop", 23],
-  ["motor","Motorized","Remote + app control", 204],
-];
-const TDBU_OPTS = [
-  ["no","No TDBU","Opens bottom-up only", 0],
-  ["yes","Top-Down / Bottom-Up","Lower from the top too", 53],
 ];
 const LINERS = [
   ["none","No Liner","Fabric only, maximum light", 0],
   ["white","Light Filtering Liner","Diffused glow + daytime privacy", 1.52],
   ["blackout","Blackout Liner","Blocks 99%+ of light", 3.03],
-];
-const EDGE_OPTS = [
-  ["no","No Banding","Clean matching edges", 0],
-  ["yes","Edge Banding","Contrast border, sides + hem", 54.60],
 ];
 
 const EIGHTHS = ["0","1/8","1/4","3/8","1/2","5/8","3/4","7/8"];
@@ -242,12 +226,9 @@ const state = {
   mount:"inside",
   w:36, wf:0, h:48, hf:0,
   fold:"seamless",
-  light:null,
   color:null,
   lift:"cordless",
-  tdbu:"no",
   liner:"none",
-  edge:"no",
   colorFilter:{fam:"All", q:""},
 };
 
@@ -314,45 +295,20 @@ function optImg(kind, val){
         : tile(tileWindow(TILE.glass, .9) + shadePanel(14, 12, 72, 42));
     case "fold":
       return tile(shadePanel(10, 12, 80, 80, {fold:val}));
-    case "light": {
-      const cfg = {
-        sheer:     {sun:.95, op:.45},
-        semisheer: {sun:.70, op:.60},
-        filtering: {sun:.45, op:.80},
-        darkening: {sun:.15, op:.95, glass:"#A9B8C0"},
-        blackout:  {sun:0,   op:1,   glass:"#7E939D"},
-      }[val];
-      return tile(tileWindow(cfg.glass || TILE.glass, cfg.sun) + shadePanel(24, 22, 52, 38, {opacity:cfg.op}));
-    }
     case "lift": {
       let extra = "";
       if (val === "cordless")
         extra = `<rect x="46" y="66" width="8" height="7" rx="2.5" fill="${TILE.rail}"/>`;
       if (val === "loop")
         extra = `<path d="M84 18 L84 74 a4 5 0 0 0 8 0 L92 18" fill="none" stroke="${TILE.rail}" stroke-width="2" stroke-dasharray="3 2.4"/>`;
-      if (val === "motor")
-        extra = `<rect x="82" y="52" width="10" height="20" rx="3" fill="${TILE.rail}"/><circle cx="87" cy="58" r="1.8" fill="#fff"/>
-                 <path d="M80 44 a9 9 0 0 1 14 0 M83 48 a5 5 0 0 1 8 0" fill="none" stroke="${TILE.rail}" stroke-width="1.8" stroke-linecap="round"/>`;
       return tile(tileWindow(TILE.glass, .85) + shadePanel(20, 14, 60, 52) + extra);
     }
-    case "tdbu":
-      return val === "no"
-        ? tile(tileWindow(TILE.glass, .85) + shadePanel(20, 14, 60, 48))
-        : tile(tileWindow(TILE.glass, .85) + shadePanel(20, 36, 60, 40) + `<rect x="22" y="14" width="56" height="3" rx="1.5" fill="${TILE.rail}"/>`);
     case "liner": {
       const lin = val === "white" ? "#FFFFFF" : val === "blackout" ? "#3A3936" : "#EADFC6";
       const sun = val === "none" ? .95 : val === "white" ? .4 : 0;
       let s = tileWindow(val === "blackout" ? "#7E939D" : TILE.glass, sun) + shadePanel(20, 14, 60, 56);
       s += `<path d="M20 74 L20 50 L44 74 Z" fill="${lin}" stroke="rgba(0,0,0,.18)" stroke-width="1"/>`;
       s += `<path d="M20 50 L44 74" stroke="rgba(0,0,0,.12)" stroke-width="2" fill="none"/>`;
-      return tile(s);
-    }
-    case "edge": {
-      if (val === "no") return tile(tileWindow(TILE.glass, .85) + shadePanel(20, 14, 60, 58));
-      const B = "#8F7C58";
-      let s = tileWindow(TILE.glass, .85) + shadePanel(20, 14, 60, 58);
-      s += `<rect x="20" y="18" width="4" height="54" fill="${B}"/><rect x="76" y="18" width="4" height="54" fill="${B}"/>
-            <rect x="20" y="68" width="60" height="4" fill="${B}"/>`;
       return tile(s);
     }
   }
@@ -410,10 +366,7 @@ $("#steps").innerHTML = [
   stepCard(4,"Fold style","The fold sets the character of the shade — from tailored flat to layered hobbled.",
     optButtons("fold", FOLDS)),
 
-  stepCard(5,"Light control","How much light the face fabric lets through.",
-    optButtons("light", LIGHTS)),
-
-  stepCard(6,"Fabric color","120 colors across 10 families. Free swatches available before you buy.",
+  stepCard(5,"Fabric color","120 colors across 10 families. Free swatches available before you buy.",
     `<div class="color-tools">
        <input type="text" id="csearch" placeholder="Search ${COLORS.length} colors…" aria-label="search colors">
        <span class="color-count" id="ccount"></span>
@@ -422,17 +375,11 @@ $("#steps").innerHTML = [
      <div class="swatches" id="swatches" role="listbox" aria-label="fabric colors"></div>
      <p class="color-chosen" id="chosen">No color selected yet.</p>`),
 
-  stepCard(7,"Lift system","All lift options are child-safe.",
+  stepCard(6,"Lift system","All lift options are child-safe.",
     optButtons("lift", LIFTS, {prices:true})),
 
-  stepCard(8,"Top-Down / Bottom-Up","TDBU lets the shade lower from the top for privacy with daylight above.",
-    optButtons("tdbu", TDBU_OPTS, {prices:true})),
-
-  stepCard(9,"Liner","Liners add light control and protect the face fabric.",
+  stepCard(7,"Liner","Liners add light control and protect the face fabric.",
     optButtons("liner", LINERS, {prices:true})),
-
-  stepCard(10,"Edge banding","A contrasting fabric border along the sides and bottom hem.",
-    optButtons("edge", EDGE_OPTS, {prices:true})),
 ].join("");
 
 /* ---- color picker ---- */
@@ -504,19 +451,14 @@ $("#cta").addEventListener("click", () => {
 function priceParts(){
   const sqft = inchesW() * inchesH() / 144;
   const lift  = LIFTS.find(l => l[0] === state.lift);
-  const tdbu  = TDBU_OPTS.find(t => t[0] === state.tdbu);
   const liner = LINERS.find(l => l[0] === state.liner);
-  const edge  = EDGE_OPTS.find(o => o[0] === state.edge);
   return [
     ["Base price","Starting price before size and options", BASE_PRICE],
     ["Size adjustment", fmtSize(), Math.max(0, Math.round(sqft * 3.6 * 100) / 100)],
     ["Fabric", colorOf() ? colorOf().name : "Not selected", 0],
     ["Fold style", FOLDS.find(f => f[0] === state.fold)[1], 0],
-    ["Light control", state.light ? LIGHTS.find(l => l[0] === state.light)[1] : "Not selected", 0],
     ["Lift system", lift[1], lift[3]],
-    ["Top-Down / Bottom-Up", tdbu[1], tdbu[3]],
     ["Lining", liner[1], Math.round(liner[3] * sqft * 100) / 100],
-    ["Edge banding", state.edge === "yes" ? "Contrast border" : "None", edge[3]],
   ];
 }
 
@@ -541,8 +483,7 @@ function missing(){
   const m = [];
   if (!state.room) m.push("room (1)");
   if (state.room === "Other" && !state.customName.trim()) m.push("window name (1)");
-  if (!state.light) m.push("light control (5)");
-  if (!state.color) m.push("fabric color (6)");
+  if (!state.color) m.push("fabric color (5)");
   return m;
 }
 
