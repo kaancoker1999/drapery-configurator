@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Custom Roman Shade Configurator</title>
+<style>
+  :root{
+    --ground:#F7F5F1;
+    --surface:#FFFFFF;
+    --ink:#2B2A26;
+    --muted:#8A857B;
+    --line:#E4E0D7;
+    --accent:#1F4D46;
+    --accent-tint:#E9F0ED;
+    --accent-deep:#153833;
+    --danger:#A34632;
+    --serif:"Charter","Iowan Old Style","Palatino Linotype",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  html{background:var(--ground);}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1180px;margin:0 auto;padding:32px 24px 96px;}
+
+  /* ---------- header ---------- */
+  .topnav{display:flex;gap:18px;align-items:center;margin-bottom:22px;font-size:13.5px;}
+  .topnav a{color:var(--muted);text-decoration:none;padding:4px 2px;border-bottom:2px solid transparent;}
+  .topnav a:hover{color:var(--ink);}
+  .topnav a.active{color:var(--accent);font-weight:600;border-bottom-color:var(--accent);}
+  .topnav .home{margin-right:auto;letter-spacing:.14em;text-transform:uppercase;font-weight:600;font-size:12px;}
+  h1{font-family:var(--serif);font-size:clamp(26px,4vw,38px);font-weight:600;letter-spacing:-.01em;text-wrap:balance;margin:2px 0 4px;}
+  .lede{color:var(--muted);font-size:15px;max-width:60ch;margin-bottom:28px;}
+
+  /* ---------- layout & cards ---------- */
+  .grid{display:flex;flex-direction:column;gap:14px;max-width:860px;}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;}
+
+  /* ---------- steps ---------- */
+  .steps{display:flex;flex-direction:column;gap:14px;}
+  .step{padding:20px 22px;}
+  .step-head{display:flex;align-items:baseline;gap:12px;margin-bottom:4px;}
+  .step-num{
+    flex:none;font-variant-numeric:tabular-nums;font-size:12px;font-weight:700;color:var(--accent);
+    border:1.5px solid var(--accent);border-radius:999px;min-width:26px;height:26px;
+    display:inline-flex;align-items:center;justify-content:center;padding:0 6px;transform:translateY(4px);
+  }
+  .step-head h2{font-family:var(--serif);font-size:19px;font-weight:600;}
+  .step-sub{color:var(--muted);font-size:13.5px;margin:0 0 14px 38px;max-width:62ch;}
+  .step-body{margin-left:38px;}
+  @media(max-width:560px){.step-sub,.step-body{margin-left:0;}}
+
+  /* ---------- inputs ---------- */
+  input[type=text],select{
+    font-family:var(--sans);font-size:15px;color:var(--ink);
+    background:#fff;border:1px solid #CFC9BC;border-radius:7px;padding:10px 12px;
+  }
+  input[type=text]:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent);}
+  input[type=text]{width:100%;max-width:420px;}
+  select{font-variant-numeric:tabular-nums;}
+
+  /* room chips */
+  .roomrow{display:flex;flex-wrap:wrap;gap:8px;}
+  .room{
+    font-family:var(--sans);font-size:14px;padding:9px 16px;border-radius:999px;
+    border:1.5px solid var(--line);background:#fff;cursor:pointer;color:var(--ink);
+    transition:border-color .12s, background .12s;
+  }
+  .room:hover{border-color:#B9B2A2;}
+  .room[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-tint);font-weight:600;}
+  .room:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  #custom-room{margin-top:12px;}
+
+  /* option cards */
+  .optrow{display:flex;flex-wrap:wrap;gap:10px;}
+  .opt{
+    position:relative;flex:1 1 140px;max-width:200px;
+    border:1.5px solid var(--line);border-radius:9px;background:#fff;
+    padding:12px 14px;cursor:pointer;text-align:left;font-family:var(--sans);
+    transition:border-color .12s, background .12s;
+  }
+  .opt:hover{border-color:#B9B2A2;}
+  .opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-tint);}
+  .opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .opt .t{display:block;font-size:14.5px;font-weight:600;}
+  .opt .d{display:block;font-size:12.5px;color:var(--muted);margin-top:2px;}
+  .opt .p{display:block;font-size:12px;font-weight:700;color:var(--accent);margin-top:4px;font-variant-numeric:tabular-nums;}
+  .opt-img{
+    display:block;width:100%;aspect-ratio:1/1;margin-bottom:10px;
+    border-radius:6px;overflow:hidden;background:#EFEBE2;border:1px solid rgba(0,0,0,.06);
+  }
+  .opt-img svg{display:block;width:100%;height:100%;}
+
+  /* dimensions */
+  .dims{display:flex;gap:22px;flex-wrap:wrap;}
+  .dim label{display:block;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+  .dim .pair{display:flex;gap:8px;}
+  .dim-note{font-size:12px;color:var(--muted);margin-top:6px;font-variant-numeric:tabular-nums;}
+
+  /* colors */
+  .color-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
+  .color-tools input[type=text]{max-width:220px;padding:8px 11px;font-size:14px;}
+  .famrow{display:flex;gap:6px;flex-wrap:wrap;}
+  .fam{
+    font-family:var(--sans);font-size:12px;padding:5px 10px;border-radius:999px;
+    border:1px solid var(--line);background:#fff;cursor:pointer;color:var(--ink);
+  }
+  .fam[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .fam:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+  .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:8px;max-height:300px;overflow-y:auto;padding:2px;margin-top:10px;}
+  .sw{aspect-ratio:1;border-radius:7px;border:1px solid rgba(0,0,0,.15);cursor:pointer;position:relative;padding:0;}
+  .sw:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .sw[aria-pressed="true"]::after{content:"";position:absolute;inset:-4px;border:2px solid var(--accent);border-radius:10px;}
+  .sw[aria-pressed="true"]::before{
+    content:"✓";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:16px;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.55);
+  }
+  .color-chosen{margin-top:10px;font-size:13.5px;}
+  .color-chosen b{font-weight:600;}
+  .color-count{font-size:12px;color:var(--muted);margin-left:auto;}
+  .swatch-dot{display:inline-block;width:11px;height:11px;border-radius:3px;border:1px solid rgba(0,0,0,.18);vertical-align:-1px;margin-right:6px;}
+
+  /* ---------- quote / summary ---------- */
+  .summary{padding:18px;}
+  .summary h2{font-family:var(--serif);font-size:17px;font-weight:600;margin-bottom:10px;}
+  .qrow{display:flex;justify-content:space-between;gap:16px;font-size:13.5px;padding:5px 0;border-bottom:1px dashed var(--line);}
+  .qrow:last-of-type{border-bottom:none;}
+  .qrow .lbl b{display:block;font-weight:600;}
+  .qrow .lbl span{color:var(--muted);font-size:12.5px;}
+  .qrow .amt{font-variant-numeric:tabular-nums;font-weight:500;white-space:nowrap;}
+  .qrow .amt.free{color:var(--muted);}
+  .pricebar{display:flex;justify-content:space-between;align-items:baseline;border-top:2px solid var(--ink);margin-top:10px;padding-top:12px;}
+  .pricebar .lbl{font-size:13px;font-weight:600;}
+  .pricebar .amt{font-family:var(--serif);font-size:26px;font-weight:600;font-variant-numeric:tabular-nums;}
+  .pricenote{font-size:11.5px;color:var(--muted);margin-top:4px;}
+  .warn{
+    display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:#7A4A1F;
+    background:#FBF3E4;border:1px solid #EBD9B8;border-radius:7px;padding:9px 12px;margin-top:12px;
+  }
+  .cta{
+    margin-top:14px;width:100%;padding:13px;border:none;border-radius:8px;
+    background:var(--accent);color:#fff;font-size:15px;font-weight:600;font-family:var(--sans);
+    cursor:pointer;transition:background .15s;
+  }
+  .cta:hover{background:var(--accent-deep);}
+  .cta:focus-visible{outline:3px solid var(--accent-tint);outline-offset:2px;}
+  .cta[disabled]{background:#C9C4B9;cursor:not-allowed;}
+  .cta-hint{font-size:12px;color:var(--danger);margin-top:8px;min-height:16px;}
+  .ship-note{text-align:center;font-size:12px;color:var(--muted);margin-top:10px;}
+  [hidden]{display:none !important;}
+  @media (prefers-reduced-motion: reduce){*{transition:none !important;}}
+</style>
+
+<div class="wrap">
+  <nav class="topnav">
+    <a class="home" href="index.html">blinds.com · new product prototype</a>
+    <a href="drapery.html">Drapery</a>
+    <a class="active" href="roman-shade.html" aria-current="page">Roman Shades</a>
+  </nav>
+  <h1>Custom Roman Shade Configurator</h1>
+  <p class="lede">Configure your made-to-measure Roman shade step by step. Your selections update the itemized quote as you go.</p>
+
+  <div class="grid">
+    <div class="steps" id="steps"></div>
+
+    <!-- ============ QUOTE ============ -->
+    <div class="card summary">
+      <h2>Your Roman Shade</h2>
+      <div id="quote"></div>
+      <div class="pricebar">
+        <span class="lbl">Estimated total</span>
+        <span class="amt" id="price">$0</span>
+      </div>
+      <p class="pricenote">Prototype estimate — final pricing set by merchandising.</p>
+      <div class="warn">⚠ <span>Production accuracy depends on final measurements. Placeholder or unchanged measurements may cause an incorrect fit.</span></div>
+      <button class="cta" id="cta">Add to Cart</button>
+      <p class="cta-hint" id="cta-hint"></p>
+      <p class="ship-note">Made to order · ships in ~10–18 business days</p>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ================= DATA ================= */
+
+const FAMILIES = [
+ ["Whites & Ivories", [["Pure White","#FBFBF8"],["Optic White","#F6F7F4"],["Chalk","#F2F0E9"],["Ivory","#F4EFE1"],["Alabaster","#EFE9DC"],["Eggshell","#F1EBDF"],["Winter White","#EDEDE6"],["Porcelain","#EAE8E0"],["Cream","#F3ECD9"],["Vanilla","#F0E7CE"],["Bone","#E8E1D1"],["Parchment","#E5DCC6"]]],
+ ["Naturals & Linens", [["Oat","#E3D9C4"],["Flax","#DCCFB2"],["Raw Linen","#D6C9AC"],["Wheat","#D9C69E"],["Sand","#D4C3A3"],["Barley","#CBB893"],["Jute","#C9B591"],["Hemp","#BFAC8A"],["Driftwood","#B3A184"],["Caramel","#B98F5F"],["Camel","#B08D57"],["Toffee","#9C7B4F"]]],
+ ["Greys", [["Silver","#D9D9D6"],["Fog","#CFCEC9"],["Dove","#C4C3BE"],["Smoke","#B8B7B0"],["Pewter","#ADACA7"],["Stone","#A5A29A"],["Cement","#969389"],["Ash","#8C8B85"],["Slate Grey","#7E7D78"],["Graphite","#63625E"],["Charcoal","#4A4945"],["Iron","#3A3936"]]],
+ ["Browns & Blacks", [["Latte","#C7AE93"],["Mushroom","#A8927B"],["Taupe","#8F7B66"],["Chestnut","#7A5C42"],["Walnut","#5B4634"],["Umber","#6B5138"],["Cocoa","#4E3D31"],["Espresso","#3B2F27"],["Truffle","#332A24"],["Onyx","#262522"],["Jet","#1E1D1B"],["Ink Black","#161514"]]],
+ ["Blues", [["Mist Blue","#C7D6DE"],["Sky","#B9CFDD"],["Powder Blue","#A9C4D6"],["Chambray","#8FB0C9"],["Cadet","#6E8CA0"],["Denim","#5E82A3"],["Steel Blue","#4F7396"],["Lake","#3E6485"],["Marine","#35567A"],["Indigo","#2E4A6B"],["Navy","#24395B"],["Midnight","#1C2C48"]]],
+ ["Greens", [["Seafoam","#BFD2C4"],["Sage","#B9C0A8"],["Celadon","#A8C3AF"],["Eucalyptus","#A3B096"],["Moss","#8A9471"],["Olive","#77804F"],["Fern","#6B7F5A"],["Juniper","#59745F"],["Pine","#44604E"],["Forest","#35503F"],["Hunter","#2C4438"],["Bottle Green","#274F41"]]],
+ ["Teals & Aquas", [["Duck Egg","#C9DCD8"],["Aqua Mist","#BCD8D5"],["Sea Glass","#A6CCC6"],["Surf","#8FBFB8"],["Harbor","#6F9C97"],["Lagoon","#5FA39B"],["Teal","#3E837D"],["Ocean","#33707A"],["Peacock","#2F6E70"],["Deep Teal","#235A5B"],["Spruce Teal","#1E4A4C"],["Abyss","#17393E"]]],
+ ["Reds & Terracottas", [["Rose Dust","#C99A93"],["Blush Clay","#D9A08F"],["Terracotta","#C0714F"],["Paprika","#B5522F"],["Rust","#A85B3E"],["Brick","#93482F"],["Cinnabar","#B03A2E"],["Crimson","#8E2A26"],["Merlot","#7A2E3A"],["Wine","#6E2430"],["Burgundy","#58202B"],["Oxblood","#4E1F26"]]],
+ ["Golds & Ochres", [["Champagne","#E6D4B2"],["Butter","#EAD9A6"],["Maize","#E3C97E"],["Honey","#D9B45C"],["Goldenrod","#CB9F3F"],["Marigold","#D89A3D"],["Amber","#C1832E"],["Ochre","#B98A2F"],["Turmeric","#B97E23"],["Mustard","#A9832E"],["Antique Gold","#93712C"],["Bronze","#8F6C2A"]]],
+ ["Purples & Plums", [["Thistle","#B5A6B8"],["Lilac Grey","#C3BCCB"],["Heather","#A99BB3"],["Mauve","#97788E"],["Orchid","#8A6490"],["Iris","#575083"],["Amethyst","#6F4E7E"],["Plum","#5D3A5F"],["Mulberry","#6B3352"],["Fig","#503047"],["Aubergine","#462C4A"],["Raisin","#3D2438"]]],
+];
+const COLORS = FAMILIES.flatMap(([fam, list]) => list.map(([name, hex]) => ({fam, name, hex})));
+
+const ROOMS = ["Living Room","Nursery","Kitchen","Dining Room","Bedroom","Bathroom","Home Office","Other"];
+
+const FOLDS = [
+  ["seamless","Seamless Flat","Smooth uninterrupted face"],
+  ["classic","Classic Flat","Subtle horizontal seam lines"],
+  ["relaxed","Relaxed","Soft curved bottom hem"],
+  ["hobbled","Hobbled","Cascading layered folds"],
+];
+const LIGHTS = [
+  ["sheer","Sheer","Bright and airy"],
+  ["semisheer","Semi-Sheer","Soft view-through"],
+  ["filtering","Light Filtering","Warm diffused glow"],
+  ["darkening","Room Darkening","Substantial dimming"],
+  ["blackout","Blackout","Near-total darkness"],
+];
+const LIFTS = [
+  ["cordless","Cordless","Raise by hand, child-safe", 0],
+  ["loop","Continuous Cord Loop","Side chain loop", 23],
+  ["motor","Motorized","Remote + app control", 204],
+];
+const TDBU_OPTS = [
+  ["no","No TDBU","Opens bottom-up only", 0],
+  ["yes","Top-Down / Bottom-Up","Lower from the top too", 53],
+];
+const LINERS = [
+  ["none","No Liner","Fabric only, maximum light", 0],
+  ["white","Light Filtering Liner","Diffused glow + daytime privacy", 1.52],
+  ["blackout","Blackout Liner","Blocks 99%+ of light", 3.03],
+];
+const EDGE_OPTS = [
+  ["no","No Banding","Clean matching edges", 0],
+  ["yes","Edge Banding","Contrast border, sides + hem", 54.60],
+];
+
+const EIGHTHS = ["0","1/8","1/4","3/8","1/2","5/8","3/4","7/8"];
+const LIMITS = { wMin:12, wMax:96, hMin:12, hMax:108 };
+const BASE_PRICE = 139;
+
+/* ================= STATE ================= */
+
+const state = {
+  room:null, customName:"",
+  mount:"inside",
+  w:36, wf:0, h:48, hf:0,
+  fold:"seamless",
+  light:null,
+  color:null,
+  lift:"cordless",
+  tdbu:"no",
+  liner:"none",
+  edge:"no",
+  colorFilter:{fam:"All", q:""},
+};
+
+/* ================= HELPERS ================= */
+
+const $  = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => [...el.querySelectorAll(s)];
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+const fmt$ = n => "$" + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+function inchesW(){ return state.w + state.wf/8; }
+function inchesH(){ return state.h + state.hf/8; }
+function fmtSize(){
+  const f8 = f => f ? " " + EIGHTHS[f] : "";
+  return `${state.w}${f8(state.wf)}" W × ${state.h}${f8(state.hf)}" H`;
+}
+function colorOf(){ return COLORS.find(c => c.name === state.color) || null; }
+function windowName(){ return state.room === "Other" ? state.customName.trim() : (state.room || ""); }
+
+/* ================= OPTION TILES ================= */
+
+const TILE = {
+  wall:"#EFEBE2", glass:"#CFE0E8", frame:"#FFFFFF",
+  fab:"#D6C9AC", fabD:"#BCAC8C", rail:"#57554F", sun:"#F2E3AE",
+};
+const tile = inner =>
+  `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect width="100" height="100" fill="${TILE.wall}"/>${inner}</svg>`;
+function tileWindow(glass=TILE.glass, sun=0){
+  let s = `<rect x="20" y="18" width="60" height="66" fill="${TILE.frame}" rx="2"/>
+    <rect x="24" y="22" width="52" height="58" fill="${glass}"/>`;
+  if (sun > 0) s += `<circle cx="63" cy="38" r="7" fill="${TILE.sun}" opacity="${sun}"/>`;
+  return s + `<line x1="50" y1="22" x2="50" y2="80" stroke="#fff" stroke-width="3"/>
+    <line x1="24" y1="51" x2="76" y2="51" stroke="#fff" stroke-width="3"/>`;
+}
+// a lowered roman shade panel with a headrail and bottom batten
+function shadePanel(x, y, w, h, {fill=TILE.fab, dark=TILE.fabD, opacity=1, fold="seamless"} = {}){
+  let s = `<g opacity="${opacity}">`;
+  s += `<rect x="${x}" y="${y}" width="${w}" height="4" rx="2" fill="${TILE.rail}"/>`; // headrail
+  const top = y + 4;
+  const fh = h - 4;
+  if (fold === "relaxed"){
+    s += `<path d="M${x} ${top} L${x+w} ${top} L${x+w} ${top+fh-8} Q ${x+w/2} ${top+fh+7} ${x} ${top+fh-8} Z" fill="${fill}"/>`;
+    s += `<path d="M${x} ${top+fh-8} Q ${x+w/2} ${top+fh+7} ${x+w} ${top+fh-8}" fill="none" stroke="${dark}" stroke-width="1.5"/>`;
+  } else {
+    s += `<rect x="${x}" y="${top}" width="${w}" height="${fh}" fill="${fill}"/>`;
+    if (fold === "classic"){
+      for (let ly = top + 12; ly < top + fh - 4; ly += 12)
+        s += `<line x1="${x}" y1="${ly}" x2="${x+w}" y2="${ly}" stroke="${dark}" stroke-width="1.3"/>`;
+    } else if (fold === "hobbled"){
+      for (let ly = top + 12; ly < top + fh - 2; ly += 12)
+        s += `<path d="M${x} ${ly} Q ${x+w/2} ${ly+7} ${x+w} ${ly}" fill="none" stroke="${dark}" stroke-width="2"/>`;
+    }
+    s += `<rect x="${x}" y="${(top+fh-3).toFixed(1)}" width="${w}" height="3" fill="${dark}" opacity=".7"/>`; // batten
+  }
+  s += `</g>`;
+  return s;
+}
+
+function optImg(kind, val){
+  switch (kind){
+    case "mount":
+      return val === "inside"
+        ? tile(tileWindow(TILE.glass, .9) + shadePanel(24, 22, 52, 34))
+        : tile(tileWindow(TILE.glass, .9) + shadePanel(14, 12, 72, 42));
+    case "fold":
+      return tile(shadePanel(10, 12, 80, 80, {fold:val}));
+    case "light": {
+      const cfg = {
+        sheer:     {sun:.95, op:.45},
+        semisheer: {sun:.70, op:.60},
+        filtering: {sun:.45, op:.80},
+        darkening: {sun:.15, op:.95, glass:"#A9B8C0"},
+        blackout:  {sun:0,   op:1,   glass:"#7E939D"},
+      }[val];
+      return tile(tileWindow(cfg.glass || TILE.glass, cfg.sun) + shadePanel(24, 22, 52, 38, {opacity:cfg.op}));
+    }
+    case "lift": {
+      let extra = "";
+      if (val === "cordless")
+        extra = `<rect x="46" y="66" width="8" height="7" rx="2.5" fill="${TILE.rail}"/>`;
+      if (val === "loop")
+        extra = `<path d="M84 18 L84 74 a4 5 0 0 0 8 0 L92 18" fill="none" stroke="${TILE.rail}" stroke-width="2" stroke-dasharray="3 2.4"/>`;
+      if (val === "motor")
+        extra = `<rect x="82" y="52" width="10" height="20" rx="3" fill="${TILE.rail}"/><circle cx="87" cy="58" r="1.8" fill="#fff"/>
+                 <path d="M80 44 a9 9 0 0 1 14 0 M83 48 a5 5 0 0 1 8 0" fill="none" stroke="${TILE.rail}" stroke-width="1.8" stroke-linecap="round"/>`;
+      return tile(tileWindow(TILE.glass, .85) + shadePanel(20, 14, 60, 52) + extra);
+    }
+    case "tdbu":
+      return val === "no"
+        ? tile(tileWindow(TILE.glass, .85) + shadePanel(20, 14, 60, 48))
+        : tile(tileWindow(TILE.glass, .85) + shadePanel(20, 36, 60, 40) + `<rect x="22" y="14" width="56" height="3" rx="1.5" fill="${TILE.rail}"/>`);
+    case "liner": {
+      const lin = val === "white" ? "#FFFFFF" : val === "blackout" ? "#3A3936" : "#EADFC6";
+      const sun = val === "none" ? .95 : val === "white" ? .4 : 0;
+      let s = tileWindow(val === "blackout" ? "#7E939D" : TILE.glass, sun) + shadePanel(20, 14, 60, 56);
+      s += `<path d="M20 74 L20 50 L44 74 Z" fill="${lin}" stroke="rgba(0,0,0,.18)" stroke-width="1"/>`;
+      s += `<path d="M20 50 L44 74" stroke="rgba(0,0,0,.12)" stroke-width="2" fill="none"/>`;
+      return tile(s);
+    }
+    case "edge": {
+      if (val === "no") return tile(tileWindow(TILE.glass, .85) + shadePanel(20, 14, 60, 58));
+      const B = "#8F7C58";
+      let s = tileWindow(TILE.glass, .85) + shadePanel(20, 14, 60, 58);
+      s += `<rect x="20" y="18" width="4" height="54" fill="${B}"/><rect x="76" y="18" width="4" height="54" fill="${B}"/>
+            <rect x="20" y="68" width="60" height="4" fill="${B}"/>`;
+      return tile(s);
+    }
+  }
+  return "";
+}
+
+/* ================= BUILD UI ================= */
+
+function optButtons(group, items, {prices=false} = {}){
+  return `<div class="optrow" role="group">` + items.map(([val, t, d, price]) =>
+    `<button type="button" class="opt" data-group="${group}" data-val="${val}" aria-pressed="${state[group]===val}">
+       <span class="opt-img" aria-hidden="true">${optImg(group, val)}</span>
+       <span class="t">${t}</span><span class="d">${d}</span>
+       ${prices ? `<span class="p">${price ? "+"+fmt$(price)+(group==="liner"?" /sq ft":"") : "Free"}</span>` : ""}
+     </button>`).join("") + `</div>`;
+}
+
+function numSelect(id, from, to, sel){
+  let o = "";
+  for (let i = from; i <= to; i++) o += `<option value="${i}" ${i===sel?"selected":""}>${i}</option>`;
+  return `<select id="${id}" aria-label="whole inches">${o}</select>`;
+}
+function fracSelect(id){
+  return `<select id="${id}" aria-label="eighths of an inch">` +
+    EIGHTHS.map((f,i)=>`<option value="${i}">${f}″</option>`).join("") + `</select>`;
+}
+
+function stepCard(num, title, sub, body){
+  return `<section class="card step">
+    <div class="step-head"><span class="step-num">${num}</span><h2>${title}</h2></div>
+    <p class="step-sub">${sub}</p>
+    <div class="step-body">${body}</div>
+  </section>`;
+}
+
+$("#steps").innerHTML = [
+  stepCard(1,"Room","Names this window in your cart so you can tell your orders apart.",
+    `<div class="roomrow">` + ROOMS.map(r =>
+      `<button type="button" class="room" data-room="${r}" aria-pressed="false">${r}</button>`).join("") + `</div>
+     <input type="text" id="custom-room" maxlength="40" placeholder="Name your window" hidden>`),
+
+  stepCard(2,"Mount type","Inside mount needs at least 1.5&quot; of frame depth; outside mount needs 2.25&quot; of flat surface above the window.",
+    optButtons("mount", [["inside","Inside Mount","Clean, built-in look — min depth 1.5&quot;"],["outside","Outside Mount","Full coverage — min surface 2.25&quot;"]])),
+
+  stepCard(3,"Size","Enter the finished shade size to the nearest ⅛ inch.",
+    `<div class="dims">
+      <div class="dim"><label for="w">Width</label>
+        <div class="pair">${numSelect("w", LIMITS.wMin, LIMITS.wMax, 36)}${fracSelect("wf")}</div>
+        <p class="dim-note">${LIMITS.wMin}″ – ${LIMITS.wMax}″</p></div>
+      <div class="dim"><label for="h">Height</label>
+        <div class="pair">${numSelect("h", LIMITS.hMin, LIMITS.hMax, 48)}${fracSelect("hf")}</div>
+        <p class="dim-note">${LIMITS.hMin}″ – ${LIMITS.hMax}″</p></div>
+    </div>`),
+
+  stepCard(4,"Fold style","The fold sets the character of the shade — from tailored flat to layered hobbled.",
+    optButtons("fold", FOLDS)),
+
+  stepCard(5,"Light control","How much light the face fabric lets through.",
+    optButtons("light", LIGHTS)),
+
+  stepCard(6,"Fabric color","120 colors across 10 families. Free swatches available before you buy.",
+    `<div class="color-tools">
+       <input type="text" id="csearch" placeholder="Search ${COLORS.length} colors…" aria-label="search colors">
+       <span class="color-count" id="ccount"></span>
+     </div>
+     <div class="famrow" id="fams"></div>
+     <div class="swatches" id="swatches" role="listbox" aria-label="fabric colors"></div>
+     <p class="color-chosen" id="chosen">No color selected yet.</p>`),
+
+  stepCard(7,"Lift system","All lift options are child-safe.",
+    optButtons("lift", LIFTS, {prices:true})),
+
+  stepCard(8,"Top-Down / Bottom-Up","TDBU lets the shade lower from the top for privacy with daylight above.",
+    optButtons("tdbu", TDBU_OPTS, {prices:true})),
+
+  stepCard(9,"Liner","Liners add light control and protect the face fabric.",
+    optButtons("liner", LINERS, {prices:true})),
+
+  stepCard(10,"Edge banding","A contrasting fabric border along the sides and bottom hem.",
+    optButtons("edge", EDGE_OPTS, {prices:true})),
+].join("");
+
+/* ---- color picker ---- */
+$("#fams").innerHTML = ["All", ...FAMILIES.map(f=>f[0])]
+  .map(f => `<button type="button" class="fam" data-fam="${esc(f)}" aria-pressed="${f==="All"}">${f}</button>`).join("");
+function renderSwatches(){
+  const {fam, q} = state.colorFilter;
+  const query = q.trim().toLowerCase();
+  const list = COLORS.filter(c =>
+    (fam === "All" || c.fam === fam) &&
+    (!query || c.name.toLowerCase().includes(query) || c.fam.toLowerCase().includes(query)));
+  $("#swatches").innerHTML = list.map(c =>
+    `<button type="button" class="sw" role="option" data-color="${esc(c.name)}"
+       style="background:${c.hex}" title="${esc(c.name)} · ${c.fam}"
+       aria-pressed="${state.color === c.name}" aria-label="${esc(c.name)}"></button>`).join("");
+  $("#ccount").textContent = `${list.length} of ${COLORS.length}`;
+}
+renderSwatches();
+
+/* ================= EVENTS ================= */
+
+document.addEventListener("click", e => {
+  const room = e.target.closest(".room");
+  if (room){
+    state.room = room.dataset.room;
+    $$(".room").forEach(r => r.setAttribute("aria-pressed", r === room ? "true" : "false"));
+    $("#custom-room").hidden = state.room !== "Other";
+    update();
+    return;
+  }
+  const opt = e.target.closest(".opt");
+  if (opt){
+    state[opt.dataset.group] = opt.dataset.val;
+    $$(`.opt[data-group="${opt.dataset.group}"]`).forEach(o =>
+      o.setAttribute("aria-pressed", o === opt ? "true" : "false"));
+    update();
+    return;
+  }
+  const fam = e.target.closest(".fam");
+  if (fam){
+    state.colorFilter.fam = fam.dataset.fam;
+    $$(".fam").forEach(f => f.setAttribute("aria-pressed", f === fam ? "true" : "false"));
+    renderSwatches();
+    return;
+  }
+  const sw = e.target.closest(".sw");
+  if (sw){
+    state.color = sw.dataset.color;
+    $$(".sw").forEach(s => s.setAttribute("aria-pressed", s === sw ? "true" : "false"));
+    update();
+  }
+});
+
+document.addEventListener("input", e => {
+  const id = e.target.id;
+  if (id === "custom-room"){ state.customName = e.target.value; update(); return; }
+  if (id === "csearch"){ state.colorFilter.q = e.target.value; renderSwatches(); return; }
+  if (["w","h","wf","hf"].includes(id)){ state[id] = +e.target.value; update(); }
+});
+
+$("#cta").addEventListener("click", () => {
+  const btn = $("#cta");
+  btn.textContent = "Added to Cart ✓";
+  setTimeout(() => { btn.textContent = "Add to Cart"; }, 1800);
+});
+
+/* ================= PRICE ================= */
+
+function priceParts(){
+  const sqft = inchesW() * inchesH() / 144;
+  const lift  = LIFTS.find(l => l[0] === state.lift);
+  const tdbu  = TDBU_OPTS.find(t => t[0] === state.tdbu);
+  const liner = LINERS.find(l => l[0] === state.liner);
+  const edge  = EDGE_OPTS.find(o => o[0] === state.edge);
+  return [
+    ["Base price","Starting price before size and options", BASE_PRICE],
+    ["Size adjustment", fmtSize(), Math.max(0, Math.round(sqft * 3.6 * 100) / 100)],
+    ["Fabric", colorOf() ? colorOf().name : "Not selected", 0],
+    ["Fold style", FOLDS.find(f => f[0] === state.fold)[1], 0],
+    ["Light control", state.light ? LIGHTS.find(l => l[0] === state.light)[1] : "Not selected", 0],
+    ["Lift system", lift[1], lift[3]],
+    ["Top-Down / Bottom-Up", tdbu[1], tdbu[3]],
+    ["Lining", liner[1], Math.round(liner[3] * sqft * 100) / 100],
+    ["Edge banding", state.edge === "yes" ? "Contrast border" : "None", edge[3]],
+  ];
+}
+
+/* ================= QUOTE + VALIDATION ================= */
+
+function renderQuote(){
+  const parts = priceParts();
+  const c = colorOf();
+  $("#quote").innerHTML = parts.map(([lbl, sub, amt], i) => `
+    <div class="qrow">
+      <div class="lbl"><b>${lbl}</b><span>${i===2 && c ? `<span class="swatch-dot" style="background:${c.hex}"></span>` : ""}${esc(String(sub))}</span></div>
+      <div class="amt ${amt ? "" : "free"}">${amt ? "+" + fmt$(amt) : "Free"}</div>
+    </div>`).join("") + `
+    <div class="qrow">
+      <div class="lbl"><b>Mount &amp; window</b><span>${state.mount === "inside" ? "Inside Mount" : "Outside Mount"} · ${esc(windowName() || "unnamed window")}</span></div>
+      <div class="amt free">—</div>
+    </div>`;
+  return parts.reduce((t, p) => t + p[2], 0);
+}
+
+function missing(){
+  const m = [];
+  if (!state.room) m.push("room (1)");
+  if (state.room === "Other" && !state.customName.trim()) m.push("window name (1)");
+  if (!state.light) m.push("light control (5)");
+  if (!state.color) m.push("fabric color (6)");
+  return m;
+}
+
+function update(){
+  const c = colorOf();
+  $("#chosen").innerHTML = c
+    ? `<span class="swatch-dot" style="background:${c.hex}"></span>Selected: <b>${c.name}</b> · ${c.fam}`
+    : "No color selected yet.";
+  const total = renderQuote();
+  $("#price").textContent = fmt$(total);
+  const miss = missing();
+  $("#cta").disabled = miss.length > 0;
+  $("#cta").textContent = miss.length ? "Add to Cart" : `Add to Cart — ${fmt$(total)}`;
+  $("#cta-hint").textContent = miss.length ? "Still needed: " + miss.join(", ") : "";
+}
+update();
+</script>
+
+</html>
