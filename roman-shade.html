@@ -183,19 +183,12 @@
 
 /* ================= DATA ================= */
 
-const FAMILIES = [
- ["Whites & Ivories", [["Pure White","#FBFBF8"],["Optic White","#F6F7F4"],["Chalk","#F2F0E9"],["Ivory","#F4EFE1"],["Alabaster","#EFE9DC"],["Eggshell","#F1EBDF"],["Winter White","#EDEDE6"],["Porcelain","#EAE8E0"],["Cream","#F3ECD9"],["Vanilla","#F0E7CE"],["Bone","#E8E1D1"],["Parchment","#E5DCC6"]]],
- ["Naturals & Linens", [["Oat","#E3D9C4"],["Flax","#DCCFB2"],["Raw Linen","#D6C9AC"],["Wheat","#D9C69E"],["Sand","#D4C3A3"],["Barley","#CBB893"],["Jute","#C9B591"],["Hemp","#BFAC8A"],["Driftwood","#B3A184"],["Caramel","#B98F5F"],["Camel","#B08D57"],["Toffee","#9C7B4F"]]],
- ["Greys", [["Silver","#D9D9D6"],["Fog","#CFCEC9"],["Dove","#C4C3BE"],["Smoke","#B8B7B0"],["Pewter","#ADACA7"],["Stone","#A5A29A"],["Cement","#969389"],["Ash","#8C8B85"],["Slate Grey","#7E7D78"],["Graphite","#63625E"],["Charcoal","#4A4945"],["Iron","#3A3936"]]],
- ["Browns & Blacks", [["Latte","#C7AE93"],["Mushroom","#A8927B"],["Taupe","#8F7B66"],["Chestnut","#7A5C42"],["Walnut","#5B4634"],["Umber","#6B5138"],["Cocoa","#4E3D31"],["Espresso","#3B2F27"],["Truffle","#332A24"],["Onyx","#262522"],["Jet","#1E1D1B"],["Ink Black","#161514"]]],
- ["Blues", [["Mist Blue","#C7D6DE"],["Sky","#B9CFDD"],["Powder Blue","#A9C4D6"],["Chambray","#8FB0C9"],["Cadet","#6E8CA0"],["Denim","#5E82A3"],["Steel Blue","#4F7396"],["Lake","#3E6485"],["Marine","#35567A"],["Indigo","#2E4A6B"],["Navy","#24395B"],["Midnight","#1C2C48"]]],
- ["Greens", [["Seafoam","#BFD2C4"],["Sage","#B9C0A8"],["Celadon","#A8C3AF"],["Eucalyptus","#A3B096"],["Moss","#8A9471"],["Olive","#77804F"],["Fern","#6B7F5A"],["Juniper","#59745F"],["Pine","#44604E"],["Forest","#35503F"],["Hunter","#2C4438"],["Bottle Green","#274F41"]]],
- ["Teals & Aquas", [["Duck Egg","#C9DCD8"],["Aqua Mist","#BCD8D5"],["Sea Glass","#A6CCC6"],["Surf","#8FBFB8"],["Harbor","#6F9C97"],["Lagoon","#5FA39B"],["Teal","#3E837D"],["Ocean","#33707A"],["Peacock","#2F6E70"],["Deep Teal","#235A5B"],["Spruce Teal","#1E4A4C"],["Abyss","#17393E"]]],
- ["Reds & Terracottas", [["Rose Dust","#C99A93"],["Blush Clay","#D9A08F"],["Terracotta","#C0714F"],["Paprika","#B5522F"],["Rust","#A85B3E"],["Brick","#93482F"],["Cinnabar","#B03A2E"],["Crimson","#8E2A26"],["Merlot","#7A2E3A"],["Wine","#6E2430"],["Burgundy","#58202B"],["Oxblood","#4E1F26"]]],
- ["Golds & Ochres", [["Champagne","#E6D4B2"],["Butter","#EAD9A6"],["Maize","#E3C97E"],["Honey","#D9B45C"],["Goldenrod","#CB9F3F"],["Marigold","#D89A3D"],["Amber","#C1832E"],["Ochre","#B98A2F"],["Turmeric","#B97E23"],["Mustard","#A9832E"],["Antique Gold","#93712C"],["Bronze","#8F6C2A"]]],
- ["Purples & Plums", [["Thistle","#B5A6B8"],["Lilac Grey","#C3BCCB"],["Heather","#A99BB3"],["Mauve","#97788E"],["Orchid","#8A6490"],["Iris","#575083"],["Amethyst","#6F4E7E"],["Plum","#5D3A5F"],["Mulberry","#6B3352"],["Fig","#503047"],["Aubergine","#462C4A"],["Raisin","#3D2438"]]],
-];
-const COLORS = FAMILIES.flatMap(([fam, list]) => list.map(([name, hex]) => ({fam, name, hex})));
+/* Real price data — source: NEW ROMAN SHADE LINE (Blinds.com product).xlsx */
+const GW = [18, 24, 30, 36, 42, 48, 54, 60, 66, 72, 78, 84, 90, 98, 105];
+const GH = [24, 30, 36, 42, 48, 54, 60, 66, 72, 78, 84, 90, 96, 106, 120];
+const GRIDS = {"1": [[61.8, 62.62, 64.27, 69.22, 77.46, 88.17, 98.06, 104.65, 113.71, 130.19, 144.2, 145.02, 158.21, 172.22, 186.22], [61.8, 62.62, 64.27, 69.22, 77.46, 88.17, 98.06, 104.65, 113.71, 130.19, 144.2, 145.02, 158.21, 172.22, 186.22], [61.8, 62.62, 64.27, 69.22, 77.46, 88.17, 98.06, 104.65, 113.71, 130.19, 144.2, 145.02, 158.21, 172.22, 186.22], [61.8, 62.62, 65.92, 72.51, 80.75, 92.29, 102.18, 110.42, 120.3, 135.96, 150.79, 151.62, 167.27, 181.28, 195.29], [65.92, 66.74, 73.34, 80.75, 88.99, 97.23, 107.12, 115.36, 125.25, 142.55, 158.21, 159.03, 174.69, 191.17, 207.65], [67.57, 68.39, 76.63, 83.22, 92.29, 101.35, 111.24, 121.13, 131.02, 148.32, 165.62, 166.45, 183.75, 199.41, 215.06], [70.04, 70.86, 79.1, 86.52, 95.58, 105.47, 116.18, 126.07, 136.78, 154.91, 172.22, 173.04, 191.17, 209.3, 227.42], [72.51, 73.34, 82.4, 89.82, 100.53, 109.59, 121.13, 130.19, 142.55, 161.5, 178.81, 179.63, 198.58, 218.36, 238.14], [74.16, 75.81, 84.87, 92.29, 103.82, 113.71, 126.07, 135.96, 148.32, 166.45, 187.05, 187.87, 207.65, 227.42, 247.2], [77.46, 78.28, 87.34, 95.58, 107.12, 118.66, 130.19, 141.73, 154.09, 173.04, 193.64, 194.46, 215.06, 235.66, 256.26], [79.93, 80.75, 89.82, 99.7, 110.42, 122.78, 135.14, 146.67, 159.03, 178.81, 200.23, 201.06, 223.3, 244.73, 266.15], [80.75, 81.58, 93.11, 103.0, 114.54, 126.9, 140.08, 151.62, 164.8, 185.4, 208.47, 209.3, 231.54, 253.79, 276.04], [84.05, 84.87, 94.76, 105.47, 118.66, 130.19, 145.02, 155.74, 170.57, 191.17, 215.06, 215.89, 239.78, 262.86, 285.93], [88.17, 88.99, 101.35, 112.06, 126.07, 138.43, 153.26, 167.27, 181.28, 204.35, 229.07, 229.9, 256.26, 280.98, 305.7], [91.74, 92.56, 104.65, 115.91, 131.29, 143.38, 159.3, 173.86, 188.7, 212.59, 238.14, 238.96, 267.25, 293.07, 318.89]], "2": [[67.98, 68.88, 70.7, 76.14, 85.21, 96.99, 107.87, 115.12, 125.08, 143.21, 158.62, 159.52, 174.03, 189.44, 204.84], [67.98, 68.88, 70.7, 76.14, 85.21, 96.99, 107.87, 115.12, 125.08, 143.21, 158.62, 159.52, 174.03, 189.44, 204.84], [67.98, 68.88, 70.7, 76.14, 85.21, 96.99, 107.87, 115.12, 125.08, 143.21, 158.62, 159.52, 174.03, 189.44, 204.84], [67.98, 68.88, 72.51, 79.76, 88.83, 101.52, 112.4, 121.46, 132.33, 149.56, 165.87, 166.78, 184.0, 199.41, 214.82], [72.51, 73.41, 80.67, 88.83, 97.89, 106.95, 117.83, 126.9, 137.78, 156.81, 174.03, 174.93, 192.16, 210.29, 228.42], [74.33, 75.23, 84.29, 91.54, 101.52, 111.48, 122.36, 133.24, 144.12, 163.15, 182.18, 183.09, 202.13, 219.35, 236.57], [77.04, 77.95, 87.01, 95.17, 105.14, 116.02, 127.8, 138.68, 150.46, 170.4, 189.44, 190.34, 210.29, 230.23, 250.16], [79.76, 80.67, 90.64, 98.8, 110.58, 120.55, 133.24, 143.21, 156.81, 177.65, 196.69, 197.59, 218.44, 240.2, 261.95], [81.58, 83.39, 93.36, 101.52, 114.2, 125.08, 138.68, 149.56, 163.15, 183.09, 205.76, 206.66, 228.42, 250.16, 271.92], [85.21, 86.11, 96.07, 105.14, 117.83, 130.53, 143.21, 155.9, 169.5, 190.34, 213.0, 213.91, 236.57, 259.23, 281.89], [87.92, 88.83, 98.8, 109.67, 121.46, 135.06, 148.65, 161.34, 174.93, 196.69, 220.25, 221.17, 245.63, 269.2, 292.76], [88.83, 89.74, 102.42, 113.3, 125.99, 139.59, 154.09, 166.78, 181.28, 203.94, 229.32, 230.23, 254.69, 279.17, 303.64], [92.45, 93.36, 104.24, 116.02, 130.53, 143.21, 159.52, 171.31, 187.63, 210.29, 236.57, 237.48, 263.76, 289.15, 314.52], [96.99, 97.89, 111.48, 123.27, 138.68, 152.27, 168.59, 184.0, 199.41, 224.79, 251.98, 252.89, 281.89, 309.08, 336.27], [100.91, 101.82, 115.12, 127.5, 144.42, 157.72, 175.23, 191.25, 207.57, 233.85, 261.95, 262.86, 293.98, 322.38, 350.78]], "3": [[77.25, 78.27, 80.34, 86.53, 96.82, 110.21, 122.58, 130.81, 142.14, 162.74, 180.25, 181.28, 197.76, 215.28, 232.78], [77.25, 78.27, 80.34, 86.53, 96.82, 110.21, 122.58, 130.81, 142.14, 162.74, 180.25, 181.28, 197.76, 215.28, 232.78], [77.25, 78.27, 80.34, 86.53, 96.82, 110.21, 122.58, 130.81, 142.14, 162.74, 180.25, 181.28, 197.76, 215.28, 232.78], [77.25, 78.27, 82.4, 90.64, 100.94, 115.36, 127.73, 138.03, 150.38, 169.95, 188.49, 189.53, 209.09, 226.6, 244.11], [82.4, 83.42, 91.68, 100.94, 111.24, 121.54, 133.9, 144.2, 156.56, 178.19, 197.76, 198.79, 218.36, 238.96, 259.56], [84.46, 85.49, 95.79, 104.03, 115.36, 126.69, 139.05, 151.41, 163.78, 185.4, 207.03, 208.06, 229.69, 249.26, 268.82], [87.55, 88.58, 98.88, 108.15, 119.47, 131.84, 145.23, 157.59, 170.97, 193.64, 215.28, 216.3, 238.96, 261.63, 284.27], [90.64, 91.68, 103.0, 112.27, 125.66, 136.99, 151.41, 162.74, 178.19, 201.88, 223.51, 224.54, 248.23, 272.95, 297.67], [92.7, 94.76, 106.09, 115.36, 129.77, 142.14, 157.59, 169.95, 185.4, 208.06, 233.81, 234.84, 259.56, 284.27, 309.0], [96.82, 97.85, 109.18, 119.47, 133.9, 148.32, 162.74, 177.16, 192.61, 216.3, 242.05, 243.08, 268.82, 294.57, 320.32], [99.91, 100.94, 112.27, 124.63, 138.03, 153.47, 168.92, 183.34, 198.79, 223.51, 250.29, 251.32, 279.13, 305.91, 332.69], [100.94, 101.97, 116.39, 128.75, 143.18, 158.63, 175.1, 189.53, 206.0, 231.75, 260.59, 261.63, 289.43, 317.24, 345.05], [105.06, 106.09, 118.45, 131.84, 148.32, 162.74, 181.28, 194.68, 213.21, 238.96, 268.82, 269.86, 299.73, 328.58, 357.41], [110.21, 111.24, 126.69, 140.07, 157.59, 173.04, 191.57, 209.09, 226.6, 255.44, 286.34, 287.38, 320.32, 351.23, 382.13], [114.67, 115.7, 130.81, 144.89, 164.11, 179.22, 199.13, 217.33, 235.88, 265.74, 297.67, 298.7, 334.06, 366.34, 398.61]], "4": [[86.52, 87.67, 89.98, 96.91, 108.44, 123.44, 137.28, 146.51, 159.19, 182.27, 201.88, 203.03, 221.49, 241.11, 260.71], [86.52, 87.67, 89.98, 96.91, 108.44, 123.44, 137.28, 146.51, 159.19, 182.27, 201.88, 203.03, 221.49, 241.11, 260.71], [86.52, 87.67, 89.98, 96.91, 108.44, 123.44, 137.28, 146.51, 159.19, 182.27, 201.88, 203.03, 221.49, 241.11, 260.71], [86.52, 87.67, 92.29, 101.51, 113.05, 129.21, 143.05, 154.59, 168.42, 190.34, 211.11, 212.27, 234.18, 253.79, 273.41], [92.29, 93.44, 102.68, 113.05, 124.59, 136.12, 149.97, 161.5, 175.35, 199.57, 221.49, 222.64, 244.57, 267.64, 290.71], [94.6, 95.75, 107.28, 116.51, 129.21, 141.89, 155.74, 169.58, 183.43, 207.65, 231.87, 233.03, 257.25, 279.17, 301.08], [98.06, 99.2, 110.74, 121.13, 133.81, 147.66, 162.65, 176.5, 191.49, 216.87, 241.11, 242.26, 267.64, 293.02, 318.39], [101.51, 102.68, 115.36, 125.75, 140.74, 153.43, 169.58, 182.27, 199.57, 226.1, 250.33, 251.48, 278.01, 305.7, 333.4], [103.82, 106.13, 118.82, 129.21, 145.35, 159.19, 176.5, 190.34, 207.65, 233.03, 261.87, 263.02, 290.71, 318.39, 346.08], [108.44, 109.59, 122.28, 133.81, 149.97, 166.12, 182.27, 198.42, 215.73, 242.26, 271.1, 272.24, 301.08, 329.92, 358.76], [111.9, 113.05, 125.75, 139.58, 154.59, 171.89, 189.2, 205.34, 222.64, 250.33, 280.32, 281.48, 312.62, 342.62, 372.61], [113.05, 114.21, 130.35, 144.2, 160.36, 177.66, 196.11, 212.27, 230.72, 259.56, 291.86, 293.02, 324.16, 355.31, 386.46], [117.67, 118.82, 132.66, 147.66, 166.12, 182.27, 203.03, 218.04, 238.8, 267.64, 301.08, 302.25, 335.69, 368.0, 400.3], [123.44, 124.59, 141.89, 156.88, 176.5, 193.8, 214.56, 234.18, 253.79, 286.09, 320.7, 321.86, 358.76, 393.37, 427.98], [128.44, 129.58, 146.51, 162.27, 183.81, 200.73, 223.02, 243.4, 264.18, 297.63, 333.4, 334.54, 374.15, 410.3, 446.45]]};
+const FABRICS = [{"group": "1", "pattern": "OPIUM", "code": "1", "name": "Pure Alabaster", "hex": "#F2EEE3"}, {"group": "1", "pattern": "OPIUM", "code": "2", "name": "Pearl Frost", "hex": "#E9EAE6"}, {"group": "1", "pattern": "OPIUM", "code": "6", "name": "Linen Sand", "hex": "#D9CBAD"}, {"group": "1", "pattern": "OPIUM", "code": "7", "name": "Desert Blush", "hex": "#D8B49B"}, {"group": "1", "pattern": "OPIUM", "code": "8", "name": "Ivory Tweed", "hex": "#E8DFC8"}, {"group": "1", "pattern": "OPIUM", "code": "10", "name": "Oat Stone", "hex": "#C9BBA0"}, {"group": "1", "pattern": "OPIUM", "code": "13", "name": "Silver Veil", "hex": "#C5C6C2"}, {"group": "1", "pattern": "OPIUM", "code": "14", "name": "Graphite Mist", "hex": "#8B8C88"}, {"group": "1", "pattern": "OSLO", "code": "1", "name": "Aluven", "hex": "#D6D8D5"}, {"group": "1", "pattern": "OSLO", "code": "2", "name": "Azuris", "hex": "#7E9BB5"}, {"group": "1", "pattern": "OSLO", "code": "3", "name": "Mistaro", "hex": "#B9C4C6"}, {"group": "1", "pattern": "OSLO", "code": "6", "name": "Velora", "hex": "#C4A9A0"}, {"group": "1", "pattern": "OSLO", "code": "8", "name": "Glacien", "hex": "#E4EBEA"}, {"group": "1", "pattern": "OSLO", "code": "10", "name": "Lunaro", "hex": "#9FA3A9"}, {"group": "1", "pattern": "OSLO", "code": "15", "name": "Salvera", "hex": "#A8B49A"}, {"group": "1", "pattern": "OSLO", "code": "20", "name": "Roselin", "hex": "#C98F94"}, {"group": "1", "pattern": "OSLO", "code": "21", "name": "Terravo", "hex": "#B0704F"}, {"group": "1", "pattern": "OSLO", "code": "22", "name": "Morvena", "hex": "#6E5A6E"}, {"group": "1", "pattern": "OSLO", "code": "23", "name": "Gravix", "hex": "#5C5E62"}, {"group": "1", "pattern": "OSLO", "code": "24", "name": "Nocteon", "hex": "#2E3138"}, {"group": "2", "pattern": "OUTLANDER", "code": "F108", "name": "Linen Mist", "hex": "#E2DAC8"}, {"group": "2", "pattern": "OUTLANDER", "code": "107", "name": "Moonstone", "hex": "#CFCFC7"}, {"group": "2", "pattern": "OUTLANDER", "code": "105", "name": "Ash Grey", "hex": "#A9A9A4"}, {"group": "2", "pattern": "OUTLANDER", "code": "F134", "name": "Olive Ash", "hex": "#8A8A6E"}, {"group": "2", "pattern": "OUTLANDER", "code": "F113", "name": "Sage Dust", "hex": "#A9B39C"}, {"group": "2", "pattern": "OUTLANDER", "code": "F106", "name": "Ash Plum", "hex": "#8E7A82"}, {"group": "2", "pattern": "OUTLANDER", "code": "133", "name": "Fog Steel", "hex": "#7C8894"}, {"group": "2", "pattern": "OUTLANDER", "code": "F102", "name": "Stone Bark", "hex": "#8A7A66"}, {"group": "2", "pattern": "OUTLANDER", "code": "F130", "name": "Ocean Teal", "hex": "#3E6E74"}, {"group": "2", "pattern": "OUTLANDER", "code": "F124", "name": "Mauve Mist", "hex": "#B398A6"}, {"group": "2", "pattern": "OUTLANDER", "code": "127", "name": "Rosewood", "hex": "#9C5F63"}, {"group": "2", "pattern": "OUTLANDER", "code": "114", "name": "Kelly Green", "hex": "#3F8A4E"}, {"group": "2", "pattern": "OUTLANDER", "code": "125", "name": "Lavender Dust", "hex": "#A79BC0"}, {"group": "2", "pattern": "OUTLANDER", "code": "F122", "name": "Ruby Red", "hex": "#8E2436"}, {"group": "2", "pattern": "OUTLANDER", "code": "123", "name": "Berry Blush", "hex": "#C26D80"}, {"group": "2", "pattern": "OUTLANDER", "code": "F126", "name": "Plum Velvet", "hex": "#5C3350"}, {"group": "2", "pattern": "OUTLANDER", "code": "131", "name": "Mineral Aqua", "hex": "#74A8A4"}, {"group": "2", "pattern": "OUTLANDER", "code": "121", "name": "Crimson Bloom", "hex": "#A82E3E"}, {"group": "2", "pattern": "OUTLANDER", "code": "F120", "name": "Terracotta Flame", "hex": "#B85C38"}, {"group": "2", "pattern": "OUTLANDER", "code": "F128", "name": "Mulverry Dusk", "hex": "#6E4458"}];
+const PATTERNS = [...new Set(FABRICS.map(f => f.pattern))];
 
 const ROOMS = ["Living Room","Nursery","Kitchen","Dining Room","Bedroom","Bathroom","Home Office","Other"];
 
@@ -220,7 +213,6 @@ const LINER_PCT = { none:0, white:10, blackout:25 };
 
 const EIGHTHS = ["0","1/8","1/4","3/8","1/2","5/8","3/4","7/8"];
 const LIMITS = { wMin:18, wMax:105, hMin:24, hMax:105 };
-const BASE_PRICE = 139;
 
 /* ================= STATE ================= */
 
@@ -247,8 +239,19 @@ function fmtSize(){
   const f8 = f => f ? " " + EIGHTHS[f] : "";
   return `${state.w}${f8(state.wf)}" W × ${state.h}${f8(state.hf)}" H`;
 }
-function colorOf(){ return COLORS.find(c => c.name === state.color) || null; }
+function fabricOf(){ return FABRICS.find(f => f.name === state.color) || null; }
 function windowName(){ return state.room === "Other" ? state.customName.trim() : (state.room || ""); }
+
+/* price-grid lookup: round size UP to the next breakpoint (standard practice) */
+function ceilIdx(bps, v){
+  for (let i = 0; i < bps.length; i++) if (v <= bps[i]) return i;
+  return bps.length - 1;
+}
+function gridPrice(){
+  const g = fabricOf()?.group || "1";           // group 1 grid shown until a fabric is picked
+  const grid = GRIDS[g];
+  return grid[ceilIdx(GH, inchesH())][ceilIdx(GW, inchesW())];
+}
 
 /* ================= OPTION TILES ================= */
 
@@ -369,9 +372,9 @@ $("#steps").innerHTML = [
   stepCard(4,"Fold style","The fold sets the character of the shade — from tailored flat to layered hobbled.",
     optButtons("fold", FOLDS, {prices:true})),
 
-  stepCard(5,"Fabric color","120 colors across 10 families. Free swatches available before you buy.",
+  stepCard(5,"Fabric &amp; color","${FABRICS.length} fabrics across ${PATTERNS.length} pattern collections. Free swatches available before you buy.",
     `<div class="color-tools">
-       <input type="text" id="csearch" placeholder="Search ${COLORS.length} colors…" aria-label="search colors">
+       <input type="text" id="csearch" placeholder="Search ${FABRICS.length} fabrics…" aria-label="search fabrics">
        <span class="color-count" id="ccount"></span>
      </div>
      <div class="famrow" id="fams"></div>
@@ -385,20 +388,20 @@ $("#steps").innerHTML = [
     optButtons("liner", LINERS, {prices:true})),
 ].join("");
 
-/* ---- color picker ---- */
-$("#fams").innerHTML = ["All", ...FAMILIES.map(f=>f[0])]
-  .map(f => `<button type="button" class="fam" data-fam="${esc(f)}" aria-pressed="${f==="All"}">${f}</button>`).join("");
+/* ---- fabric picker ---- */
+$("#fams").innerHTML = ["All", ...PATTERNS]
+  .map(p => `<button type="button" class="fam" data-fam="${esc(p)}" aria-pressed="${p==="All"}">${p==="All"?"All":p + " · Group " + FABRICS.find(f=>f.pattern===p).group}</button>`).join("");
 function renderSwatches(){
   const {fam, q} = state.colorFilter;
   const query = q.trim().toLowerCase();
-  const list = COLORS.filter(c =>
-    (fam === "All" || c.fam === fam) &&
-    (!query || c.name.toLowerCase().includes(query) || c.fam.toLowerCase().includes(query)));
-  $("#swatches").innerHTML = list.map(c =>
-    `<button type="button" class="sw" role="option" data-color="${esc(c.name)}"
-       style="background:${c.hex}" title="${esc(c.name)} · ${c.fam}"
-       aria-pressed="${state.color === c.name}" aria-label="${esc(c.name)}"></button>`).join("");
-  $("#ccount").textContent = `${list.length} of ${COLORS.length}`;
+  const list = FABRICS.filter(f =>
+    (fam === "All" || f.pattern === fam) &&
+    (!query || f.name.toLowerCase().includes(query) || f.pattern.toLowerCase().includes(query)));
+  $("#swatches").innerHTML = list.map(f =>
+    `<button type="button" class="sw" role="option" data-color="${esc(f.name)}"
+       style="background:${f.hex}" title="${esc(f.pattern)} ${esc(f.code)} · ${esc(f.name)} · Group ${f.group}"
+       aria-pressed="${state.color === f.name}" aria-label="${esc(f.name)}"></button>`).join("");
+  $("#ccount").textContent = `${list.length} of ${FABRICS.length}`;
 }
 renderSwatches();
 
@@ -452,21 +455,19 @@ $("#cta").addEventListener("click", () => {
 /* ================= PRICE ================= */
 
 function priceParts(){
-  const sqft = inchesW() * inchesH() / 144;
-  const sizeAdj = Math.max(0, Math.round(sqft * 3.6 * 100) / 100);
-  const subtotal = BASE_PRICE + sizeAdj;   // percentage options apply to base + size
+  const base = gridPrice();                 // real price grid: size × fabric group
+  const fab = fabricOf();
   const foldPct  = FOLD_PCT[state.fold];
   const linerPct = LINER_PCT[state.liner];
   const fold  = FOLDS.find(f => f[0] === state.fold);
   const lift  = LIFTS.find(l => l[0] === state.lift);
   const liner = LINERS.find(l => l[0] === state.liner);
   return [
-    ["Base price","Starting price before size and options", BASE_PRICE],
-    ["Size adjustment", fmtSize(), sizeAdj],
-    ["Fabric", colorOf() ? colorOf().name : "Not selected", 0],
-    ["Fold style", fold[1] + (foldPct ? ` (+${foldPct}%)` : " (basic)"), Math.round(subtotal * foldPct) / 100],
+    ["Base price", `${fmtSize()} · Fabric group ${fab ? fab.group : "1 (default)"}`, base],
+    ["Fabric", fab ? `${fab.pattern} · ${fab.name}` : "Not selected", 0],
+    ["Fold style", fold[1] + (foldPct ? ` (+${foldPct}%)` : " (basic)"), Math.round(base * foldPct) / 100],
     ["Lift system", lift[1], LIFT_PRICE[state.lift]],
-    ["Lining", liner[1] + (linerPct ? ` (+${linerPct}%)` : ""), Math.round(subtotal * linerPct) / 100],
+    ["Lining", liner[1] + (linerPct ? ` (+${linerPct}%)` : ""), Math.round(base * linerPct) / 100],
   ];
 }
 
@@ -474,11 +475,11 @@ function priceParts(){
 
 function renderQuote(){
   const parts = priceParts();
-  const c = colorOf();
+  const c = fabricOf();
   $("#quote").innerHTML = parts.map(([lbl, sub, amt], i) => `
     <div class="qrow">
-      <div class="lbl"><b>${lbl}</b><span>${i===2 && c ? `<span class="swatch-dot" style="background:${c.hex}"></span>` : ""}${esc(String(sub))}</span></div>
-      <div class="amt ${amt ? "" : "free"}">${amt ? "+" + fmt$(amt) : "Free"}</div>
+      <div class="lbl"><b>${lbl}</b><span>${i===1 && c ? `<span class="swatch-dot" style="background:${c.hex}"></span>` : ""}${esc(String(sub))}</span></div>
+      <div class="amt ${amt ? "" : "free"}">${amt ? (i===0 ? "" : "+") + fmt$(amt) : "Free"}</div>
     </div>`).join("") + `
     <div class="qrow">
       <div class="lbl"><b>Mount &amp; window</b><span>${state.mount === "inside" ? "Inside Mount" : "Outside Mount"} · ${esc(windowName() || "unnamed window")}</span></div>
@@ -496,10 +497,10 @@ function missing(){
 }
 
 function update(){
-  const c = colorOf();
+  const c = fabricOf();
   $("#chosen").innerHTML = c
-    ? `<span class="swatch-dot" style="background:${c.hex}"></span>Selected: <b>${c.name}</b> · ${c.fam}`
-    : "No color selected yet.";
+    ? `<span class="swatch-dot" style="background:${c.hex}"></span>Selected: <b>${c.name}</b> · ${c.pattern} ${c.code} · Price group ${c.group}`
+    : "No fabric selected yet.";
   const total = renderQuote();
   $("#price").textContent = fmt$(total);
   const miss = missing();
