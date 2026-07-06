@@ -411,18 +411,7 @@ function optImg(kind, val){
         inner += `<line x1="88" y1="31" x2="97" y2="74" stroke="${TILE.track}" stroke-width="2.2" stroke-linecap="round"/>`;
         return tile(inner);
       }
-      if (val === "rod"){
-        // rod close-up: round bar, finials, rings
-        let inner = `<rect x="10" y="24" width="80" height="5" rx="2.5" fill="${TILE.track}"/>`;
-        inner += `<circle cx="8" cy="26.5" r="4.5" fill="#3E3C38"/><circle cx="92" cy="26.5" r="4.5" fill="#3E3C38"/>`;
-        for (let i = 0; i < 7; i++){
-          const x = (18 + i*64/6).toFixed(1);
-          inner += `<circle cx="${x}" cy="30" r="4" fill="none" stroke="${TILE.track}" stroke-width="2"/>`;
-        }
-        inner += tileDrape(8, 36, 84, 57);
-        return tile(inner);
-      }
-      // no hardware: pin hooks exposed, dashed outline where the rod/track would go
+      // no track: pin hooks exposed, dashed outline where the track would go
       let inner = `<rect x="6" y="22" width="88" height="7" rx="3.5" fill="none" stroke="#B3AA97" stroke-width="2" stroke-dasharray="6 4"/>`;
       for (let i = 0; i < 7; i++){
         const x = 16 + i*68/6;
@@ -524,8 +513,8 @@ $("#steps").innerHTML = [
     </div>
   </section>`,
 
-  stepCard(10,"Hardware","Add a matching rod or track, cut to your width and priced from the hardware table.",
-    optButtons("hw", [["rod","Rod","Decorative rod with finials & rings"],["track","Track","Low-profile channel, wand included"],["none","No Hardware","I have my own"]])),
+  stepCard(10,"Track","Add a matching heavy-duty track, cut to your width and priced from the hardware table.",
+    optButtons("hw", [["track","Include Track","Cut to size, wand included"],["none","No Track","I have my own hardware"]])),
 ].join("");
 
 /* ---- color pickers ---- */
@@ -624,8 +613,8 @@ function linerPrice(p){
   return DLINERS[p.liner][ceilIdx(DH, h)][ceilIdx(DW, w)];
 }
 function hardwarePrice(){
-  if (state.hw !== "rod" && state.hw !== "track") return 0;
-  return DHW[state.hw][ceilIdx(DW, inches(state.front).w)];
+  if (state.hw !== "track") return 0;
+  return DHW.track[ceilIdx(DW, inches(state.front).w)];
 }
 function pleatDesc(p){
   const name = label.pleat[p.pleat] ?? "Wave";
@@ -643,8 +632,8 @@ function priceBreakdown(){
     if (state.back.liner === "white" || state.back.liner === "blackout")
       rows.push(["Back liner", label.liner[state.back.liner], linerPrice(state.back)]);
   }
-  if (state.hw === "rod" || state.hw === "track")
-    rows.push(["Hardware", (state.hw === "rod" ? "Rod" : "Track") + ", cut to width", hardwarePrice()]);
+  if (state.hw === "track")
+    rows.push(["Track", "Cut to width", hardwarePrice()]);
   return rows;
 }
 function totalPrice(){
@@ -678,7 +667,7 @@ function renderSummary(){
     <div class="sumrow"><dt>Draw</dt><dd>${label.draw[state.draw] ?? dash}</dd></div>
     <div class="sumrow"><dt>Mount</dt><dd>${label.mount[state.mount] ?? dash}</dd></div>
     <div class="sumrow"><dt>Configuration</dt><dd>${state.panels==="double"?"Front & Back Panel":"Single Panel"}</dd></div>
-    <div class="sumrow"><dt>Hardware</dt><dd>${state.hw==null ? dash : state.hw==="none"?"None":state.hw==="rod"?"Rod":"Track"}</dd></div>
+    <div class="sumrow"><dt>Track</dt><dd>${state.hw==null ? dash : state.hw==="track"?"Included":"Not included"}</dd></div>
   </div>
   <dl class="sumgrp"><h3>${state.panels==="double"?"Front panel":"Panel"}</h3>${panelRows(state.front)}</dl>`;
   if (state.panels === "double")
@@ -706,7 +695,7 @@ function missing(){
     if (!state.back.pleat) m.push("back pleat (9a)");
     if (!state.back.liner) m.push("back liner (9a)");
   }
-  if (state.hw == null) m.push("hardware (10)");
+  if (state.hw == null) m.push("track (10)");
   return m;
 }
 
