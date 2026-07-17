@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<title>Drapery — Specs & Guides</title>
+<style>
+  :root{
+    --ground:#F7F5F1;
+    --surface:#FFFFFF;
+    --ink:#2B2A26;
+    --muted:#8A857B;
+    --line:#E4E0D7;
+    --accent:#1F4D46;
+    --accent-tint:#E9F0ED;
+    --accent-deep:#153833;
+    --serif:"Charter","Iowan Old Style","Palatino Linotype",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  html{background:var(--ground);}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:920px;margin:0 auto;padding:32px 24px 96px;}
+
+  .topnav{display:flex;gap:18px;align-items:center;margin-bottom:22px;font-size:13.5px;flex-wrap:wrap;}
+  .topnav a{color:var(--muted);text-decoration:none;padding:4px 2px;border-bottom:2px solid transparent;}
+  .topnav a:hover{color:var(--ink);}
+  .topnav a.active{color:var(--accent);font-weight:600;border-bottom-color:var(--accent);}
+  .topnav .home{margin-right:auto;letter-spacing:.14em;text-transform:uppercase;font-weight:600;font-size:12px;}
+
+  h1{font-family:var(--serif);font-size:clamp(26px,4vw,38px);font-weight:600;letter-spacing:-.01em;text-wrap:balance;margin:2px 0 4px;}
+  .lede{color:var(--muted);font-size:15px;max-width:64ch;margin-bottom:18px;}
+
+  /* legend + status pills */
+  .legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px;font-size:12px;}
+  .pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;border-radius:999px;padding:3px 10px;white-space:nowrap;}
+  .pill.ok{background:#E3EFE6;color:#1F5B33;}
+  .pill.draft{background:#FBF3E4;color:#8A5A17;}
+  .pill.todo{background:#F9E7E3;color:#963A28;}
+
+  section.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px 24px;margin-bottom:16px;}
+  section.card > h2{font-family:var(--serif);font-size:21px;font-weight:600;margin-bottom:2px;}
+  section.card > .src{font-size:12px;color:var(--muted);margin-bottom:14px;}
+  h3{font-size:14px;font-weight:600;margin:18px 0 8px;}
+  p{font-size:14px;max-width:70ch;}
+  ul{font-size:14px;padding-left:20px;margin:6px 0;}
+  li{margin:3px 0;max-width:68ch;}
+
+  .tablewrap{overflow-x:auto;}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;margin:8px 0;}
+  th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:7px 12px 7px 0;border-bottom:2px solid var(--ink);white-space:nowrap;}
+  td{padding:7px 12px 7px 0;border-bottom:1px solid var(--line);vertical-align:top;font-variant-numeric:tabular-nums;}
+  td:first-child{font-weight:600;white-space:nowrap;}
+
+  .note{font-size:12.5px;color:var(--muted);background:var(--ground);border:1px dashed #D5CFC2;border-radius:7px;padding:9px 12px;margin:10px 0;max-width:none;}
+  [hidden]{display:none !important;}
+</style>
+
+<div class="wrap">
+  <nav class="topnav">
+    <a class="home" href="index.html">blinds.com · new product prototype</a>
+    <a href="drapery.html">Drapery</a>
+    <a href="roman-shade.html">Roman Shades</a>
+    <a class="active" href="specs.html" aria-current="page">Specs &amp; Guides</a>
+  </nav>
+
+  <h1>Drapery — Specifications &amp; Guides</h1>
+  <p class="lede">Working reference for Product, Sales and Customer Service. Everything the assortment build needs, in one place — with the source and confidence of each item marked.</p>
+
+  <div class="legend">
+    <span class="pill ok">CONFIRMED — from price workbook</span>
+    <span class="pill draft">DRAFT — industry standard, confirm with manufacturer</span>
+    <span class="pill todo">PENDING — awaiting manufacturer</span>
+  </div>
+
+  <!-- ============ 1. PRODUCT SPECS ============ -->
+  <section class="card" id="product-specs">
+    <h2>1 · Product Specifications</h2>
+    <p class="src">Sources: price workbook (sizes, pleats) · drafts pending manufacturer confirmation</p>
+
+    <h3>Size limits &amp; pleat styles <span class="pill ok">CONFIRMED</span></h3>
+    <div class="tablewrap"><table>
+      <tr><th>Pleat style</th><th>Pricing (own sheet ≈ vs Wave)</th><th>Width</th><th>Height</th></tr>
+      <tr><td>Wave</td><td>Base grid</td><td>18″ – 192″</td><td>24″ – 120″</td></tr>
+      <tr><td>Single Pinch Pleat</td><td>≈ +10%</td><td>18″ – 192″</td><td>24″ – 120″</td></tr>
+      <tr><td>Double Pinch Pleat</td><td>≈ +10%</td><td>18″ – 192″</td><td>24″ – 120″</td></tr>
+      <tr><td>Triple Pinch Pleat</td><td>≈ +17.5%</td><td>18″ – 192″</td><td>24″ – 120″</td></tr>
+      <tr><td>Euro Pleat</td><td>≈ +17.5%</td><td>18″ – 192″</td><td>24″ – 120″</td></tr>
+    </table></div>
+    <p class="note">⚠ Per-pleat size differences (if any) not yet documented by manufacturer — table above assumes the shared range from the price grids. Single Pinch Pleat is confirmed in the updated pricing workbook (own price sheet); PDF catalog still needs to be updated to match.</p>
+
+    <h3>Fullness ratios <span class="pill draft">DRAFT</span></h3>
+    <div class="tablewrap"><table>
+      <tr><th>Pleat style</th><th>Fullness</th><th>Notes</th></tr>
+      <tr><td>Wave</td><td>2.0×</td><td>60&nbsp;mm wave tape, continuous S-curve</td></tr>
+      <tr><td>Single Pinch</td><td>1.8×</td><td>Lightest gather, most economical use of fabric</td></tr>
+      <tr><td>Double Pinch</td><td>2.0×</td><td>Standard tailored fullness</td></tr>
+      <tr><td>Triple Pinch</td><td>2.5×</td><td>Maximum fullness, most formal</td></tr>
+      <tr><td>Euro Pleat</td><td>2.0×</td><td>Two-finger top-tacked</td></tr>
+    </table></div>
+
+    <h3>Stack-back <span class="pill draft">DRAFT</span></h3>
+    <div class="tablewrap"><table>
+      <tr><th>Pleat style</th><th>Stack-back (per side, approx.)</th></tr>
+      <tr><td>Wave</td><td>~20% of covered width ÷ number of stacking sides</td></tr>
+      <tr><td>Pinch / Euro pleats</td><td>~25–30% of covered width ÷ number of stacking sides</td></tr>
+    </table></div>
+    <p>Example: a 120″ split-draw Wave drapery stacks ~12″ per side; order wider than the glass if you want the glass fully cleared.</p>
+
+    <h3>Draw configurations <span class="pill ok">CONFIRMED</span></h3>
+    <ul>
+      <li><b>Split draw (center open)</b> — two panels, opens from the middle.</li>
+      <li><b>One-way draw</b> — single panel stacking left or right.</li>
+      <li><b>Stationary panels</b> — decorative side panels, non-traversing.</li>
+    </ul>
+
+    <h3>Seaming &amp; panel construction <span class="pill draft">DRAFT</span></h3>
+    <ul>
+      <li>Maximum seamless panel width ≈ fabric width − side hems (typically ~52″ face on 54″ goods); wider panels are seamed at full fabric-width intervals.</li>
+      <li>Seams placed at fold valleys wherever possible; pattern-matched across seams on repeating fabrics.</li>
+      <li>Railroadable fabrics can run seamless up to the fabric width as height. <span class="pill todo">PENDING — railroad list per fabric</span></li>
+    </ul>
+
+    <h3>Manufacturing tolerances <span class="pill draft">DRAFT</span></h3>
+    <ul>
+      <li>Finished width: ±0.25″ &nbsp;·&nbsp; Finished length: ±0.5″</li>
+      <li>Hem alignment across a pair: within 0.25″</li>
+    </ul>
+  </section>
+
+  <!-- ============ 2. FABRICS ============ -->
+  <section class="card" id="fabrics">
+    <h2>2 · Fabric Specifications</h2>
+    <p class="src">Sources: roman-shade workbook COLORS sheet (names, groups) · full matrix pending</p>
+
+    <h3>What we have <span class="pill ok">CONFIRMED</span></h3>
+    <ul>
+      <li>Roman shade line: 20 fabrics — OPIUM (8 colorways) and OSLO (12 colorways), both price group 1.</li>
+      <li>Drapery price groups A–D exist in the price workbook (group grids differ ~+18% / +45% / +80% over A at reference size).</li>
+    </ul>
+
+    <h3>What the full matrix must add <span class="pill todo">PENDING</span></h3>
+    <div class="tablewrap"><table>
+      <tr><th>Column</th><th>Why it's needed</th></tr>
+      <tr><td>Composition</td><td>PDP content, care instructions</td></tr>
+      <tr><td>Price group (A–D)</td><td>Correct pricing per color — <b>current configurator mapping is a placeholder</b></td></tr>
+      <tr><td>Weight (gsm)</td><td>Pleat suitability, hardware load</td></tr>
+      <tr><td>Fabric width</td><td>Seam planning, max seamless width</td></tr>
+      <tr><td>H / V repeats</td><td>Pattern matching, yardage</td></tr>
+      <tr><td>Railroad capability</td><td>Seamless wide panels</td></tr>
+      <tr><td>Transparency class</td><td>Sheer / semi-sheer / light-filtering / room-darkening / blackout filters</td></tr>
+      <tr><td>Liner compatibility</td><td>Which liners are allowed per fabric</td></tr>
+      <tr><td>Per-fabric size limits</td><td>Only if tighter than product limits</td></tr>
+    </table></div>
+  </section>
+
+  <!-- ============ 3. HARDWARE ============ -->
+  <section class="card" id="hardware">
+    <h2>3 · Hardware &amp; Track Program</h2>
+    <p class="src">Sources: price workbook ROD &amp; TRACK rows · program details pending</p>
+
+    <h3>What we have <span class="pill ok">CONFIRMED</span></h3>
+    <ul>
+      <li>Rod and track sale prices by width, 18″–192″ (e.g. track: $18.30 @ 36″ · $27.90 @ 60″ · $53.10 @ 120″).</li>
+      <li>Track is offered as an option in the configurator (include / not include).</li>
+    </ul>
+
+    <h3>Program details needed <span class="pill todo">PENDING</span></h3>
+    <ul>
+      <li>Collections, styles and finishes/colors; finials, rings, brackets, support brackets</li>
+      <li>Dimensions, weight capacities, maximum spans between supports</li>
+      <li>Projection and mounting requirements (wall vs ceiling), included components</li>
+      <li>Option dependencies (e.g. which pleats require track vs rod)</li>
+    </ul>
+    <p class="note">⚠ Until spans/capacities arrive, quote hardware only within the priced width range and flag heavy fabrics at wide widths for manual review.</p>
+  </section>
+
+  <!-- ============ 4. MEASURING & CONSTRUCTION ============ -->
+  <section class="card" id="measuring">
+    <h2>4 · Measuring, Installation &amp; Construction</h2>
+    <p class="src">Customer-facing guides pending from manufacturer — interim guidance below</p>
+
+    <h3>Measuring — quick guide <span class="pill draft">DRAFT</span></h3>
+    <ul>
+      <li><b>Width:</b> measure the area to cover; for full light control add 4–6″ each side past the frame (plus stack-back if the glass must clear).</li>
+      <li><b>Length (wall mount):</b> from the rod/track pocket top to the desired end point — sill, below-sill (+4″) or 0.5″ above the floor.</li>
+      <li><b>Length (ceiling mount):</b> from the ceiling to the desired end point.</li>
+      <li>All sizes to the nearest ⅛″; the factory cuts to the ordered finished size.</li>
+    </ul>
+
+    <h3>Construction details <span class="pill draft">DRAFT</span></h3>
+    <div class="tablewrap"><table>
+      <tr><th>Element</th><th>Spec</th></tr>
+      <tr><td>Header</td><td>4″ buckram, double-turned</td></tr>
+      <tr><td>Bottom hem</td><td>4″ double-turned, blind-stitched, corner-weighted</td></tr>
+      <tr><td>Side hems</td><td>1.5″ double-turned</td></tr>
+      <tr><td>Returns</td><td>3.5″ standard</td></tr>
+      <tr><td>Overlap (split draw)</td><td>2.5″ at center</td></tr>
+      <tr><td>Liner construction</td><td>Sewn-in, hemmed separately; blackout liner sewn sides-only to prevent puckering</td></tr>
+    </table></div>
+    <p class="note">⚠ Awaiting manufacturer PDFs: drapery measuring guide · hardware measuring guide · installation instructions · fabric-specific manufacturing exceptions.</p>
+  </section>
+
+  <!-- ============ 5. ASSETS ============ -->
+  <section class="card" id="assets">
+    <h2>5 · Photography &amp; Merchandising Assets</h2>
+    <p class="src">All pending from manufacturer</p>
+    <ul>
+      <li>Room scene photography per pleat style <span class="pill todo">PENDING</span></li>
+      <li>Hardware photography + finish/color swatch images <span class="pill todo">PENDING</span></li>
+      <li>Fabric swatch scans (current configurator colors are placeholders) <span class="pill todo">PENDING</span></li>
+    </ul>
+  </section>
+
+  <p class="lede" style="margin-top:24px">Internal prototype reference — not customer-facing. Update this page as manufacturer documentation arrives.</p>
+</div>
+</html>
