@@ -71,6 +71,94 @@
     <span class="pill todo">PENDING — awaiting manufacturer</span>
   </div>
 
+  <!-- ============ 0. TO-DO / OUTSTANDING ITEMS ============ -->
+  <section class="card" id="todo" style="border-left:3px solid var(--accent);">
+    <h2>0 · To-Do — Outstanding Items from Manufacturer</h2>
+    <p class="src">Gap list from Blinds.com Product team request (Suzi) · check items off as they arrive — <b id="todo-count"></b></p>
+    <div id="todo-list"></div>
+  </section>
+
+  <script>
+  "use strict";
+  const TODO = {
+    "Product Specifications": [
+      "Updated Specifications PDF catalog (incl. Single Pinch Pleat)",
+      "Min/max width & height limitations BY pleat style",
+      "Fullness ratio confirmation per pleat (drafts on this page)",
+      "Stack-back specifications",
+      "Official draw-configuration list (center, one-way, stationary)",
+      "Fabric limitations/restrictions by pleat style",
+      "Panel seaming rules & max seamless widths",
+      "Manufacturing tolerances",
+    ],
+    "Fabric Specification Workbook": [
+      "Complete DRAPERY fabric matrix — names, colors, real price-group (A–D) mapping",
+      "Material composition per fabric",
+      "Fabric weight (gsm) per fabric",
+      "Fabric width per fabric",
+      "Horizontal / vertical repeats",
+      "Railroad capability list",
+      "Transparency / light-control classification",
+      "Liner compatibility per fabric",
+      "Per-fabric size limitations (if tighter than product)",
+    ],
+    "Hardware & Track Program": [
+      "Collections, styles, finishes/colors (rods, tracks, finials, rings, brackets)",
+      "Hardware dimensions",
+      "Weight capacities & maximum spans",
+      "Projection & mounting requirements",
+      "Included hardware/components list",
+      "Hardware installation requirements",
+    ],
+    "Installation, Measuring & Construction (PDFs)": [
+      "Customer measuring guide — drapery",
+      "Customer measuring guide — hardware",
+      "Installation instructions",
+      "Hem & header construction confirmation",
+      "Return & overlap dimensions confirmation",
+      "Weighted hem / corner details",
+      "Blackout liner construction requirements",
+      "Fabric-specific manufacturing exceptions",
+    ],
+    "Photography & Merchandising Assets": [
+      "Room scene photography per pleat style",
+      "Hardware photography images",
+      "Hardware finish/color swatch images",
+      "Fabric swatch scans (configurator colors are placeholders)",
+    ],
+  };
+  const KEY = "drapery-todo-v1";
+  const saved = JSON.parse(localStorage.getItem(KEY) || "{}");
+  const listEl = document.getElementById("todo-list");
+  let html = "";
+  for (const [group, items] of Object.entries(TODO)){
+    html += `<h3>${group}</h3><ul style="list-style:none;padding-left:2px;">` + items.map(item => {
+      const id = group + "|" + item;
+      const done = saved[id];
+      return `<li style="margin:5px 0;"><label style="display:flex;gap:9px;align-items:flex-start;cursor:pointer;${done?"color:var(--muted);text-decoration:line-through;":""}">
+        <input type="checkbox" data-id="${id.replace(/"/g,"&quot;")}" ${done?"checked":""} style="margin-top:3px;accent-color:var(--accent);">
+        <span>${item}</span></label></li>`;
+    }).join("") + `</ul>`;
+  }
+  listEl.innerHTML = html;
+  function updateCount(){
+    const total = Object.values(TODO).flat().length;
+    const done = Object.values(JSON.parse(localStorage.getItem(KEY) || "{}")).filter(Boolean).length;
+    document.getElementById("todo-count").textContent = `${done} / ${total} received`;
+  }
+  listEl.addEventListener("change", e => {
+    if (e.target.type !== "checkbox") return;
+    const s = JSON.parse(localStorage.getItem(KEY) || "{}");
+    s[e.target.dataset.id] = e.target.checked;
+    localStorage.setItem(KEY, JSON.stringify(s));
+    const label = e.target.closest("label");
+    label.style.color = e.target.checked ? "var(--muted)" : "";
+    label.style.textDecoration = e.target.checked ? "line-through" : "";
+    updateCount();
+  });
+  updateCount();
+  </script>
+
   <!-- ============ 1. PRODUCT SPECS ============ -->
   <section class="card" id="product-specs">
     <h2>1 · Product Specifications</h2>
