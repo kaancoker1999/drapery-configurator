@@ -2,7 +2,7 @@
 <html lang="en">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="utf-8">
-<title>Drapery — Specs & Guides</title>
+<title>Drapery — Specs & Open Questions</title>
 <style>
   :root{
     --ground:#F7F5F1;
@@ -18,7 +18,7 @@
   }
   html{background:var(--ground);}
   body{font-family:var(--sans);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;}
-  .wrap{max-width:920px;margin:0 auto;padding:32px 24px 96px;}
+  .wrap{max-width:900px;margin:0 auto;padding:32px 24px 96px;}
 
   .topnav{display:flex;gap:18px;align-items:center;margin-bottom:22px;font-size:13.5px;flex-wrap:wrap;}
   .topnav a{color:var(--muted);text-decoration:none;padding:4px 2px;border-bottom:2px solid transparent;}
@@ -29,28 +29,37 @@
   h1{font-family:var(--serif);font-size:clamp(26px,4vw,38px);font-weight:600;letter-spacing:-.01em;text-wrap:balance;margin:2px 0 4px;}
   .lede{color:var(--muted);font-size:15px;max-width:64ch;margin-bottom:18px;}
 
-  /* legend + status pills */
-  .legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px;font-size:12px;}
-  .pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;border-radius:999px;padding:3px 10px;white-space:nowrap;}
+  /* scorecard */
+  .score{
+    display:flex;gap:22px;flex-wrap:wrap;align-items:baseline;
+    background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:10px;padding:14px 20px;margin-bottom:22px;font-size:13.5px;
+  }
+  .score b{font-family:var(--serif);font-size:22px;font-variant-numeric:tabular-nums;}
+  .score .lbl{color:var(--muted);font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;}
+
+  .pill{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.06em;border-radius:999px;padding:2.5px 9px;white-space:nowrap;vertical-align:2px;}
   .pill.ok{background:#E3EFE6;color:#1F5B33;}
-  .pill.draft{background:#FBF3E4;color:#8A5A17;}
-  .pill.todo{background:#F9E7E3;color:#963A28;}
+  .pill.part{background:#FBF3E4;color:#8A5A17;}
+  .pill.wait{background:#F9E7E3;color:#963A28;}
 
-  section.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px 24px;margin-bottom:16px;}
-  section.card > h2{font-family:var(--serif);font-size:21px;font-weight:600;margin-bottom:2px;}
-  section.card > .src{font-size:12px;color:var(--muted);margin-bottom:14px;}
-  h3{font-size:14px;font-weight:600;margin:18px 0 8px;}
-  p{font-size:14px;max-width:70ch;}
-  ul{font-size:14px;padding-left:20px;margin:6px 0;}
-  li{margin:3px 0;max-width:68ch;}
+  section.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 24px;margin-bottom:16px;}
+  section.card > h2{font-family:var(--serif);font-size:21px;font-weight:600;margin-bottom:12px;}
 
-  .tablewrap{overflow-x:auto;}
-  table{border-collapse:collapse;width:100%;font-size:13.5px;margin:8px 0;}
-  th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:7px 12px 7px 0;border-bottom:2px solid var(--ink);white-space:nowrap;}
-  td{padding:7px 12px 7px 0;border-bottom:1px solid var(--line);vertical-align:top;font-variant-numeric:tabular-nums;}
-  td:first-child{font-weight:600;white-space:nowrap;}
-
-  .note{font-size:12.5px;color:var(--muted);background:var(--ground);border:1px dashed #D5CFC2;border-radius:7px;padding:9px 12px;margin:10px 0;max-width:none;}
+  .q{border-top:1px solid var(--line);padding:13px 0;}
+  .q:first-of-type{border-top:none;padding-top:2px;}
+  .q .qhead{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;}
+  .q .qnum{flex:none;font-size:11.5px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;}
+  .q .qtext{font-size:14.5px;font-weight:600;max-width:60ch;}
+  .q .ans{margin:7px 0 0 34px;font-size:13.5px;max-width:62ch;}
+  .q .ans .anote{color:var(--muted);font-size:12.5px;}
+  .q .recv{margin:7px 0 0 34px;font-size:12.5px;color:var(--muted);}
+  .q .recv label{display:inline-flex;gap:7px;align-items:center;cursor:pointer;}
+  .q .recv input{accent-color:var(--accent);}
+  .q.received .qtext{color:var(--muted);text-decoration:line-through;}
+  ul.ansl{padding-left:18px;margin:4px 0;}
+  ul.ansl li{margin:2px 0;}
+  .note{font-size:12.5px;color:var(--muted);background:var(--ground);border:1px dashed #D5CFC2;border-radius:7px;padding:9px 12px;margin:14px 0 4px;}
   [hidden]{display:none !important;}
 </style>
 
@@ -62,242 +71,122 @@
     <a class="active" href="specs.html" aria-current="page">Specs &amp; Guides</a>
   </nav>
 
-  <h1>Drapery — Specifications &amp; Guides</h1>
-  <p class="lede">Working reference for Product, Sales and Customer Service. Everything the assortment build needs, in one place — with the source and confidence of each item marked.</p>
+  <h1>Drapery — Specs &amp; Open Questions</h1>
+  <p class="lede">Every item from the Blinds.com Product team's request, as a question list. Answered where our materials support it; open questions await the manufacturer — tick them off as documentation arrives.</p>
 
-  <div class="legend">
-    <span class="pill ok">CONFIRMED — from price workbook</span>
-    <span class="pill draft">DRAFT — industry standard, confirm with manufacturer</span>
-    <span class="pill todo">PENDING — awaiting manufacturer</span>
+  <div class="score">
+    <span><b id="n-ans">0</b> <span class="lbl">answered</span></span>
+    <span><b id="n-part">0</b> <span class="lbl">partial</span></span>
+    <span><b id="n-wait">0</b> <span class="lbl">awaiting</span></span>
+    <span><b id="n-recv">0</b> <span class="lbl">received &amp; checked off</span></span>
   </div>
 
-  <!-- ============ 0. TO-DO / OUTSTANDING ITEMS ============ -->
-  <section class="card" id="todo" style="border-left:3px solid var(--accent);">
-    <h2>0 · To-Do — Outstanding Items from Manufacturer</h2>
-    <p class="src">Gap list from Blinds.com Product team request (Suzi) · check items off as they arrive — <b id="todo-count"></b></p>
-    <div id="todo-list"></div>
-  </section>
+  <div id="sections"></div>
 
-  <script>
-  "use strict";
-  const TODO = {
-    "Product Specifications": [
-      "Updated Specifications PDF catalog (incl. Single Pinch Pleat)",
-      "Min/max width & height limitations BY pleat style",
-      "Fullness ratio confirmation per pleat (drafts on this page)",
-      "Stack-back specifications",
-      "Official draw-configuration list (center, one-way, stationary)",
-      "Fabric limitations/restrictions by pleat style",
-      "Panel seaming rules & max seamless widths",
-      "Manufacturing tolerances",
-    ],
-    "Fabric Specification Workbook": [
-      "Complete DRAPERY fabric matrix — names, colors, real price-group (A–D) mapping",
-      "Material composition per fabric",
-      "Fabric weight (gsm) per fabric",
-      "Fabric width per fabric",
-      "Horizontal / vertical repeats",
-      "Railroad capability list",
-      "Transparency / light-control classification",
-      "Liner compatibility per fabric",
-      "Per-fabric size limitations (if tighter than product)",
-    ],
-    "Hardware & Track Program": [
-      "Collections, styles, finishes/colors (rods, tracks, finials, rings, brackets)",
-      "Hardware dimensions",
-      "Weight capacities & maximum spans",
-      "Projection & mounting requirements",
-      "Included hardware/components list",
-      "Hardware installation requirements",
-    ],
-    "Installation, Measuring & Construction (PDFs)": [
-      "Customer measuring guide — drapery",
-      "Customer measuring guide — hardware",
-      "Installation instructions",
-      "Hem & header construction confirmation",
-      "Return & overlap dimensions confirmation",
-      "Weighted hem / corner details",
-      "Blackout liner construction requirements",
-      "Fabric-specific manufacturing exceptions",
-    ],
-    "Photography & Merchandising Assets": [
-      "Room scene photography per pleat style",
-      "Hardware photography images",
-      "Hardware finish/color swatch images",
-      "Fabric swatch scans (configurator colors are placeholders)",
-    ],
-  };
-  const KEY = "drapery-todo-v1";
-  const saved = JSON.parse(localStorage.getItem(KEY) || "{}");
-  const listEl = document.getElementById("todo-list");
-  let html = "";
-  for (const [group, items] of Object.entries(TODO)){
-    html += `<h3>${group}</h3><ul style="list-style:none;padding-left:2px;">` + items.map(item => {
-      const id = group + "|" + item;
-      const done = saved[id];
-      return `<li style="margin:5px 0;"><label style="display:flex;gap:9px;align-items:flex-start;cursor:pointer;${done?"color:var(--muted);text-decoration:line-through;":""}">
-        <input type="checkbox" data-id="${id.replace(/"/g,"&quot;")}" ${done?"checked":""} style="margin-top:3px;accent-color:var(--accent);">
-        <span>${item}</span></label></li>`;
-    }).join("") + `</ul>`;
-  }
-  listEl.innerHTML = html;
-  function updateCount(){
-    const total = Object.values(TODO).flat().length;
-    const done = Object.values(JSON.parse(localStorage.getItem(KEY) || "{}")).filter(Boolean).length;
-    document.getElementById("todo-count").textContent = `${done} / ${total} received`;
-  }
-  listEl.addEventListener("change", e => {
-    if (e.target.type !== "checkbox") return;
-    const s = JSON.parse(localStorage.getItem(KEY) || "{}");
-    s[e.target.dataset.id] = e.target.checked;
-    localStorage.setItem(KEY, JSON.stringify(s));
-    const label = e.target.closest("label");
-    label.style.color = e.target.checked ? "var(--muted)" : "";
-    label.style.textDecoration = e.target.checked ? "line-through" : "";
-    updateCount();
-  });
-  updateCount();
-  </script>
-
-  <!-- ============ 1. PRODUCT SPECS ============ -->
-  <section class="card" id="product-specs">
-    <h2>1 · Product Specifications</h2>
-    <p class="src">Sources: price workbook (sizes, pleats) · drafts pending manufacturer confirmation</p>
-
-    <h3>Size limits &amp; pleat styles <span class="pill ok">CONFIRMED</span></h3>
-    <div class="tablewrap"><table>
-      <tr><th>Pleat style</th><th>Pricing (own sheet ≈ vs Wave)</th><th>Width</th><th>Height</th></tr>
-      <tr><td>Wave</td><td>Base grid</td><td>18″ – 192″</td><td>24″ – 120″</td></tr>
-      <tr><td>Single Pinch Pleat</td><td>≈ +10%</td><td>18″ – 192″</td><td>24″ – 120″</td></tr>
-      <tr><td>Double Pinch Pleat</td><td>≈ +10%</td><td>18″ – 192″</td><td>24″ – 120″</td></tr>
-      <tr><td>Triple Pinch Pleat</td><td>≈ +17.5%</td><td>18″ – 192″</td><td>24″ – 120″</td></tr>
-      <tr><td>Euro Pleat</td><td>≈ +17.5%</td><td>18″ – 192″</td><td>24″ – 120″</td></tr>
-    </table></div>
-    <p class="note">⚠ Per-pleat size differences (if any) not yet documented by manufacturer — table above assumes the shared range from the price grids. Single Pinch Pleat is confirmed in the updated pricing workbook (own price sheet); PDF catalog still needs to be updated to match.</p>
-
-    <h3>Fullness ratios <span class="pill draft">DRAFT</span></h3>
-    <div class="tablewrap"><table>
-      <tr><th>Pleat style</th><th>Fullness</th><th>Notes</th></tr>
-      <tr><td>Wave</td><td>2.0×</td><td>60&nbsp;mm wave tape, continuous S-curve</td></tr>
-      <tr><td>Single Pinch</td><td>2.0×</td><td>Single-finger pinch, tailored gather</td></tr>
-      <tr><td>Double Pinch</td><td>2.0×</td><td>Standard tailored fullness</td></tr>
-      <tr><td>Triple Pinch</td><td>2.5×</td><td>Maximum fullness, most formal</td></tr>
-      <tr><td>Euro Pleat</td><td>2.5×</td><td>Top-tacked, generous fullness</td></tr>
-    </table></div>
-
-    <h3>Stack-back <span class="pill draft">DRAFT</span></h3>
-    <div class="tablewrap"><table>
-      <tr><th>Pleat style</th><th>Stack-back (per side, approx.)</th></tr>
-      <tr><td>Wave</td><td>~20% of covered width ÷ number of stacking sides</td></tr>
-      <tr><td>Pinch / Euro pleats</td><td>~25–30% of covered width ÷ number of stacking sides</td></tr>
-    </table></div>
-    <p>Example: a 120″ split-draw Wave drapery stacks ~12″ per side; order wider than the glass if you want the glass fully cleared.</p>
-
-    <h3>Draw configurations <span class="pill ok">CONFIRMED</span></h3>
-    <ul>
-      <li><b>Split draw (center open)</b> — two panels, opens from the middle.</li>
-      <li><b>One-way draw</b> — single panel stacking left or right.</li>
-      <li><b>Stationary panels</b> — decorative side panels, non-traversing.</li>
-    </ul>
-
-    <h3>Seaming &amp; panel construction <span class="pill draft">DRAFT</span></h3>
-    <ul>
-      <li>Maximum seamless panel width ≈ fabric width − side hems (typically ~52″ face on 54″ goods); wider panels are seamed at full fabric-width intervals.</li>
-      <li>Seams placed at fold valleys wherever possible; pattern-matched across seams on repeating fabrics.</li>
-      <li>Railroadable fabrics can run seamless up to the fabric width as height. <span class="pill todo">PENDING — railroad list per fabric</span></li>
-    </ul>
-
-    <h3>Manufacturing tolerances <span class="pill draft">DRAFT</span></h3>
-    <ul>
-      <li>Finished width: ±0.25″ &nbsp;·&nbsp; Finished length: ±0.5″</li>
-      <li>Hem alignment across a pair: within 0.25″</li>
-    </ul>
-  </section>
-
-  <!-- ============ 2. FABRICS ============ -->
-  <section class="card" id="fabrics">
-    <h2>2 · Fabric Specifications</h2>
-    <p class="src">Sources: roman-shade workbook COLORS sheet (names, groups) · full matrix pending</p>
-
-    <h3>What we have <span class="pill ok">CONFIRMED</span></h3>
-    <ul>
-      <li>Roman shade line: 20 fabrics — OPIUM (8 colorways) and OSLO (12 colorways), both price group 1.</li>
-      <li>Drapery price groups A–D exist in the price workbook (group grids differ ~+18% / +45% / +80% over A at reference size).</li>
-    </ul>
-
-    <h3>What the full matrix must add <span class="pill todo">PENDING</span></h3>
-    <div class="tablewrap"><table>
-      <tr><th>Column</th><th>Why it's needed</th></tr>
-      <tr><td>Composition</td><td>PDP content, care instructions</td></tr>
-      <tr><td>Price group (A–D)</td><td>Correct pricing per color — <b>current configurator mapping is a placeholder</b></td></tr>
-      <tr><td>Weight (gsm)</td><td>Pleat suitability, hardware load</td></tr>
-      <tr><td>Fabric width</td><td>Seam planning, max seamless width</td></tr>
-      <tr><td>H / V repeats</td><td>Pattern matching, yardage</td></tr>
-      <tr><td>Railroad capability</td><td>Seamless wide panels</td></tr>
-      <tr><td>Transparency class</td><td>Sheer / semi-sheer / light-filtering / room-darkening / blackout filters</td></tr>
-      <tr><td>Liner compatibility</td><td>Which liners are allowed per fabric</td></tr>
-      <tr><td>Per-fabric size limits</td><td>Only if tighter than product limits</td></tr>
-    </table></div>
-  </section>
-
-  <!-- ============ 3. HARDWARE ============ -->
-  <section class="card" id="hardware">
-    <h2>3 · Hardware &amp; Track Program</h2>
-    <p class="src">Sources: price workbook ROD &amp; TRACK rows · program details pending</p>
-
-    <h3>What we have <span class="pill ok">CONFIRMED</span></h3>
-    <ul>
-      <li>Rod and track sale prices by width, 18″–192″ (e.g. track: $18.30 @ 36″ · $27.90 @ 60″ · $53.10 @ 120″).</li>
-      <li>Track is offered as an option in the configurator (include / not include).</li>
-    </ul>
-
-    <h3>Program details needed <span class="pill todo">PENDING</span></h3>
-    <ul>
-      <li>Collections, styles and finishes/colors; finials, rings, brackets, support brackets</li>
-      <li>Dimensions, weight capacities, maximum spans between supports</li>
-      <li>Projection and mounting requirements (wall vs ceiling), included components</li>
-      <li>Option dependencies (e.g. which pleats require track vs rod)</li>
-    </ul>
-    <p class="note">⚠ Until spans/capacities arrive, quote hardware only within the priced width range and flag heavy fabrics at wide widths for manual review.</p>
-  </section>
-
-  <!-- ============ 4. MEASURING & CONSTRUCTION ============ -->
-  <section class="card" id="measuring">
-    <h2>4 · Measuring, Installation &amp; Construction</h2>
-    <p class="src">Customer-facing guides pending from manufacturer — interim guidance below</p>
-
-    <h3>Measuring — quick guide <span class="pill draft">DRAFT</span></h3>
-    <ul>
-      <li><b>Width:</b> measure the area to cover; for full light control add 4–6″ each side past the frame (plus stack-back if the glass must clear).</li>
-      <li><b>Length (wall mount):</b> from the rod/track pocket top to the desired end point — sill, below-sill (+4″) or 0.5″ above the floor.</li>
-      <li><b>Length (ceiling mount):</b> from the ceiling to the desired end point.</li>
-      <li>All sizes to the nearest ⅛″; the factory cuts to the ordered finished size.</li>
-    </ul>
-
-    <h3>Construction details <span class="pill draft">DRAFT</span></h3>
-    <div class="tablewrap"><table>
-      <tr><th>Element</th><th>Spec</th></tr>
-      <tr><td>Header</td><td>4″ buckram, double-turned</td></tr>
-      <tr><td>Bottom hem</td><td>4″ double-turned, blind-stitched, corner-weighted</td></tr>
-      <tr><td>Side hems</td><td>1.5″ double-turned</td></tr>
-      <tr><td>Returns</td><td>3.5″ standard</td></tr>
-      <tr><td>Overlap (split draw)</td><td>2.5″ at center</td></tr>
-      <tr><td>Liner construction</td><td>Sewn-in, hemmed separately; blackout liner sewn sides-only to prevent puckering</td></tr>
-    </table></div>
-    <p class="note">⚠ Awaiting manufacturer PDFs: drapery measuring guide · hardware measuring guide · installation instructions · fabric-specific manufacturing exceptions.</p>
-  </section>
-
-  <!-- ============ 5. ASSETS ============ -->
-  <section class="card" id="assets">
-    <h2>5 · Photography &amp; Merchandising Assets</h2>
-    <p class="src">All pending from manufacturer</p>
-    <ul>
-      <li>Room scene photography per pleat style <span class="pill todo">PENDING</span></li>
-      <li>Hardware photography + finish/color swatch images <span class="pill todo">PENDING</span></li>
-      <li>Fabric swatch scans (current configurator colors are placeholders) <span class="pill todo">PENDING</span></li>
-    </ul>
-  </section>
-
-  <p class="lede" style="margin-top:24px">Internal prototype reference — not customer-facing. Update this page as manufacturer documentation arrives.</p>
+  <p class="note">Internal prototype reference — not customer-facing. “Received” checkmarks are saved in this browser only. Answers marked <span class="pill part">PARTIAL</span> still need the remaining details from the manufacturer.</p>
 </div>
+
+<script>
+"use strict";
+/*
+ status: "ok" = answered · "part" = partially answered (checkbox) · "wait" = awaiting manufacturer (checkbox)
+ a: answer HTML (only for ok/part)
+*/
+const SECTIONS = [
+["1 · Product Specifications","product-specs",[
+  {q:"What are the minimum/maximum width and height limitations by pleat style?",status:"ok",
+   a:`Width <b>18″–192″</b> (6″ price breakpoints), height <b>24″–120″</b> — identical across all five pleat styles per the price workbook. No per-pleat differences are documented.`},
+  {q:"Which pleat styles are being offered?",status:"ok",
+   a:`Five: <b>Wave (Wave Fold), Single Pinch, Double Pinch, Triple Pinch, Euro Pleat</b> — each with its own price sheet in the updated workbook.`},
+  {q:"Is Single Pinch Pleat an active offering?",status:"ok",
+   a:`<b>Yes.</b> The updated pricing workbook includes a dedicated SINGLE PINCH PLEAT sheet (≈ Wave +10%). The PDF product catalog needs updating to match.`},
+  {q:"What are the fullness ratios by pleat style?",status:"ok",
+   a:`Wave <b>2.0×</b> · Single Pinch <b>2.0×</b> · Double Pinch <b>2.0×</b> · Triple Pinch <b>2.5×</b> · Euro Pleat <b>2.5×</b>.<br><span class="anote">Get manufacturer's written confirmation of these working values.</span>`},
+  {q:"What are the stack-back specifications?",status:"wait"},
+  {q:"What draw configurations are available?",status:"ok",
+   a:`<b>Split draw</b> (center open), <b>one-way draw</b> (left or right stack), and <b>stationary decorative side panels</b>.`},
+  {q:"Are there fabric limitations or restrictions by pleat style?",status:"wait"},
+  {q:"What are the panel construction and seaming rules (max seamless width, seam placement)?",status:"wait"},
+  {q:"What are the manufacturing tolerances?",status:"wait"},
+]],
+["2 · Fabric Specifications","fabrics",[
+  {q:"What are the fabric names and colors?",status:"part",
+   a:`Roman shade line only: <b>20 fabrics</b> — OPIUM (8 colorways) and OSLO (12 colorways), with color codes. <b>For drapery no fabric list exists yet</b> — the 120 colors in the configurator are placeholders.`},
+  {q:"What is the material composition of each fabric?",status:"wait"},
+  {q:"What is the price group of each fabric?",status:"part",
+   a:`Roman: OPIUM and OSLO are both <b>Group 1</b>. Drapery: groups A–D exist in the pricing workbook, but the fabric→group mapping has not been provided (current configurator mapping is a placeholder).`},
+  {q:"What is the fabric weight (gsm)?",status:"wait"},
+  {q:"What is the fabric width?",status:"wait"},
+  {q:"What are the horizontal / vertical repeats?",status:"wait"},
+  {q:"Which fabrics are railroadable?",status:"wait"},
+  {q:"What is each fabric's transparency / light-control classification?",status:"wait"},
+  {q:"Which liners are compatible with each fabric?",status:"wait"},
+  {q:"Are there per-fabric size limitations?",status:"wait"},
+]],
+["3 · Hardware & Track Program","hardware",[
+  {q:"What collections, styles, finishes/colors are available (rods, tracks, finials, rings, brackets)?",status:"wait"},
+  {q:"What are the hardware dimensions?",status:"wait"},
+  {q:"What are the weight capacities and maximum spans?",status:"wait"},
+  {q:"What are the projection and mounting requirements?",status:"wait"},
+  {q:"What is the hardware pricing?",status:"ok",
+   a:`Rod and track sale prices by width are in the workbook, <b>18″–192″</b> (e.g. track $18.30 @ 36″ · $27.90 @ 60″ · $53.10 @ 120″; rod slightly higher at wide widths).`},
+  {q:"What components are included, and what are the installation requirements?",status:"wait"},
+]],
+["4 · Installation, Measuring & Construction","measuring",[
+  {q:"Customer measuring guide for drapery (PDF)?",status:"wait"},
+  {q:"Customer measuring guide for hardware (PDF)?",status:"wait"},
+  {q:"Installation instructions (PDF)?",status:"wait"},
+  {q:"What is the hem and header construction?",status:"wait"},
+  {q:"What are the return and overlap dimensions?",status:"wait"},
+  {q:"What are the weighted hem / corner details?",status:"wait"},
+  {q:"What are the blackout liner construction requirements?",status:"wait"},
+  {q:"Are there fabric-specific manufacturing exceptions?",status:"wait"},
+]],
+["5 · Photography & Merchandising Assets","assets",[
+  {q:"Room scene photography for each pleat style?",status:"wait"},
+  {q:"Hardware photography and finish/color swatch images?",status:"wait"},
+  {q:"Fabric swatch scans (configurator colors are placeholders)?",status:"wait"},
+]],
+];
+
+const KEY = "drapery-questions-v2";
+const saved = JSON.parse(localStorage.getItem(KEY) || "{}");
+const PILL = { ok:'<span class="pill ok">ANSWERED</span>', part:'<span class="pill part">PARTIAL</span>', wait:'<span class="pill wait">AWAITING MANUFACTURER</span>' };
+
+let qn = 0, html = "";
+for (const [title, id, items] of SECTIONS){
+  html += `<section class="card" id="${id}"><h2>${title}</h2>`;
+  for (const it of items){
+    qn++;
+    const qid = "q" + qn;
+    const received = !!saved[qid];
+    html += `<div class="q ${received ? "received" : ""}" data-qid="${qid}">
+      <div class="qhead"><span class="qnum">Q${qn}</span><span class="qtext">${it.q}</span> ${PILL[it.status]}</div>`;
+    if (it.a) html += `<div class="ans">${it.a}</div>`;
+    if (it.status !== "ok")
+      html += `<div class="recv"><label><input type="checkbox" data-qid="${qid}" ${received ? "checked" : ""}> received from manufacturer</label></div>`;
+    html += `</div>`;
+  }
+  html += `</section>`;
+}
+document.getElementById("sections").innerHTML = html;
+
+function counts(){
+  const s = JSON.parse(localStorage.getItem(KEY) || "{}");
+  const all = SECTIONS.flatMap(x => x[2]);
+  document.getElementById("n-ans").textContent  = all.filter(i => i.status === "ok").length;
+  document.getElementById("n-part").textContent = all.filter(i => i.status === "part").length;
+  document.getElementById("n-wait").textContent = all.filter(i => i.status === "wait").length;
+  document.getElementById("n-recv").textContent = Object.values(s).filter(Boolean).length;
+}
+document.getElementById("sections").addEventListener("change", e => {
+  if (e.target.type !== "checkbox") return;
+  const s = JSON.parse(localStorage.getItem(KEY) || "{}");
+  s[e.target.dataset.qid] = e.target.checked;
+  localStorage.setItem(KEY, JSON.stringify(s));
+  e.target.closest(".q").classList.toggle("received", e.target.checked);
+  counts();
+});
+counts();
+</script>
 </html>
