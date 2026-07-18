@@ -59,6 +59,12 @@
   .q.received .qtext{color:var(--muted);text-decoration:line-through;}
   ul.ansl{padding-left:18px;margin:4px 0;}
   ul.ansl li{margin:2px 0;}
+  .tablewrap{overflow-x:auto;margin-top:12px;}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;}
+  th{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 10px 6px 0;border-bottom:2px solid var(--ink);white-space:nowrap;}
+  td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line);vertical-align:top;font-variant-numeric:tabular-nums;}
+  td:first-child{font-weight:600;white-space:nowrap;}
+  .fillnote{font-size:12.5px;color:var(--muted);background:var(--ground);border:1px dashed #D5CFC2;border-radius:7px;padding:8px 12px;margin-top:10px;}
   .note{font-size:12.5px;color:var(--muted);background:var(--ground);border:1px dashed #D5CFC2;border-radius:7px;padding:9px 12px;margin:14px 0 4px;}
   [hidden]{display:none !important;}
 </style>
@@ -95,9 +101,9 @@
 const SECTIONS = [
 ["1 · Product Specifications","product-specs",[
   {q:"What are the minimum/maximum width and height limitations by pleat style?",status:"ok",
-   a:`Width <b>18″–192″</b> (6″ price breakpoints), height <b>24″–120″</b> — identical across all five pleat styles per the price workbook. No per-pleat differences are documented.`},
+   a:`Width <b>18″–192″</b> (6″ price breakpoints), height <b>24″–120″</b>. <b>Confirmed: all pleat styles share the same min/max limitations.</b>`},
   {q:"Which pleat styles are being offered?",status:"ok",
-   a:`Five: <b>Wave (Wave Fold), Single Pinch, Double Pinch, Triple Pinch, Euro Pleat</b> — each with its own price sheet in the updated workbook.`},
+   a:`<b>Confirmed — five styles:</b> Single Pinch, Double Pinch, Triple Pinch, Wave Fold, Euro Pleat — each with its own price sheet in the updated workbook.`},
   {q:"Is Single Pinch Pleat an active offering?",status:"ok",
    a:`<b>Yes.</b> The updated pricing workbook includes a dedicated SINGLE PINCH PLEAT sheet (≈ Wave +10%). The PDF product catalog needs updating to match.`},
   {q:"What are the fullness ratios by pleat style?",status:"ok",
@@ -106,8 +112,10 @@ const SECTIONS = [
   {q:"What draw configurations are available?",status:"ok",
    a:`<b>Split draw</b> (center open), <b>one-way draw</b> (left or right stack), and <b>stationary decorative side panels</b>.`},
   {q:"Are there fabric limitations or restrictions by pleat style?",status:"wait"},
-  {q:"What are the panel construction and seaming rules (max seamless width, seam placement)?",status:"wait"},
-  {q:"What are the manufacturing tolerances?",status:"wait"},
+  {q:"What are the panel construction and seaming rules (max seamless width, seam placement)?",status:"ok",
+   a:`<b>Side hems:</b> 2″ folded on the left and right of each panel. <b>Bottom hem:</b> 3½″. <b>Seams are not offered</b> — drapery heights run below 3 m, so every panel is produced seamless.`},
+  {q:"What are the manufacturing tolerances?",status:"ok",
+   a:`<b>1″ total</b> on finished dimensions.`},
 ]],
 ["2 · Fabric Specifications","fabrics",[
   {q:"What are the fabric names and colors?",status:"part",
@@ -121,8 +129,15 @@ const SECTIONS = [
   {q:"Which fabrics are railroadable?",status:"wait"},
   {q:"What is each fabric's transparency / light-control classification?",status:"wait"},
   {q:"Which liners are compatible with each fabric?",status:"wait"},
-  {q:"Are there per-fabric size limitations?",status:"wait"},
-]],
+  {q:"Are there per-fabric size limitations?",status:"ok",
+   a:`<b>No — all fabrics share the same product limitations</b> (18″–192″ W × 24″–120″ H).`},
+],
+`<h3 style="font-size:14px;font-weight:600;margin:18px 0 4px;">Fabric Matrix <span class="pill part">BEING FILLED</span></h3>
+ <div class="tablewrap"><table id="fabric-matrix">
+   <tr><th>Fabric</th><th>Colors</th><th>Composition</th><th>Price group</th><th>Weight (g/m²)</th><th>Width</th><th>H / V repeat</th><th>Railroad</th><th>Transparency</th><th>Liner compat.</th><th>Size limits</th></tr>
+   <tr><td colspan="11" style="color:var(--muted);font-weight:400;text-align:center;padding:16px 0;">— rows will be added as Kaan supplies the data —</td></tr>
+ </table></div>
+ <p class="fillnote">Reserved for the complete fabric matrix. Send fabrics one by one or as a list; each will be added as a row here.</p>`],
 ["3 · Hardware & Track Program","hardware",[
   {q:"What collections, styles, finishes/colors are available (rods, tracks, finials, rings, brackets)?",status:"wait"},
   {q:"What are the hardware dimensions?",status:"wait"},
@@ -136,7 +151,8 @@ const SECTIONS = [
   {q:"Customer measuring guide for drapery (PDF)?",status:"wait"},
   {q:"Customer measuring guide for hardware (PDF)?",status:"wait"},
   {q:"Installation instructions (PDF)?",status:"wait"},
-  {q:"What is the hem and header construction?",status:"wait"},
+  {q:"What is the hem and header construction?",status:"part",
+   a:`<b>Hems confirmed:</b> 2″ side hems (left &amp; right), 3½″ bottom hem. Header construction details still awaited.`},
   {q:"What are the return and overlap dimensions?",status:"wait"},
   {q:"What are the weighted hem / corner details?",status:"wait"},
   {q:"What are the blackout liner construction requirements?",status:"wait"},
@@ -154,7 +170,7 @@ const saved = JSON.parse(localStorage.getItem(KEY) || "{}");
 const PILL = { ok:'<span class="pill ok">ANSWERED</span>', part:'<span class="pill part">PARTIAL</span>', wait:'<span class="pill wait">AWAITING MANUFACTURER</span>' };
 
 let qn = 0, html = "";
-for (const [title, id, items] of SECTIONS){
+for (const [title, id, items, extra] of SECTIONS){
   html += `<section class="card" id="${id}"><h2>${title}</h2>`;
   for (const it of items){
     qn++;
@@ -167,6 +183,7 @@ for (const [title, id, items] of SECTIONS){
       html += `<div class="recv"><label><input type="checkbox" data-qid="${qid}" ${received ? "checked" : ""}> received from manufacturer</label></div>`;
     html += `</div>`;
   }
+  if (extra) html += extra;
   html += `</section>`;
 }
 document.getElementById("sections").innerHTML = html;
