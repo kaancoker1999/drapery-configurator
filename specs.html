@@ -128,28 +128,32 @@ const SECTIONS = [
    a:`<b>Drapery confirmed:</b> Group 1 → A: OUTLANDER · Group 2 → B: SOHO, LAZULI, PIERO · Group 3 → C: CARILLO, NOMAD · Group 4 → D: ARROW, PERISCOPE. Roman: OPIUM &amp; OSLO = Group 1.`},
   {q:"What is the fabric weight (gsm)?",status:"ok",
    a:`Provided per fabric — 94–129 g (SOHO sheers) up to 340 g (PIERO). See the matrix below.`},
-  {q:"What is the fabric width?",status:"wait"},
-  {q:"What are the horizontal / vertical repeats?",status:"wait"},
-  {q:"Which fabrics are railroadable?",status:"wait"},
+  {q:"What is the fabric width?",status:"ok",
+   a:`<b>3 m (~118″) — all fabrics.</b> Because fabric width (3 m) exceeds the maximum drop (120″ ≈ 3 m), panels are made seamless with no horizontal seams.`},
+  {q:"What are the horizontal / vertical repeats?",status:"ok",
+   a:`<b>Vertical repeats.</b> All fabrics are directional (pattern runs one way), so there is no cross-panel horizontal railroad repeat.`},
+  {q:"Which fabrics are railroadable?",status:"ok",
+   a:`<b>None — all fabrics are directional</b> and cannot be railroaded.`},
   {q:"What is each fabric's transparency / light-control classification?",status:"ok",
    a:`Provided per fabric: <b>Sheer</b> (SOHO, PIERO), <b>Semi Transparent</b> (LAZULI, CARILLO, ARROW), <b>Fabric</b> (OUTLANDER, NOMAD), <b>Linen</b> (PERISCOPE).`},
-  {q:"Which liners are compatible with each fabric?",status:"wait"},
+  {q:"Which liners are compatible with each fabric?",status:"ok",
+   a:`<b>Two liners — White (light-filtering) and Blackout — both compatible with every fabric.</b> A no-liner (fabric only) option is also available.`},
   {q:"Are there per-fabric size limitations?",status:"ok",
    a:`<b>No — all fabrics share the same product limitations</b> (18″–192″ W × 24″–120″ H).`},
 ],
-`<h3 style="font-size:14px;font-weight:600;margin:18px 0 4px;">Fabric Matrix — Drapery <span class="pill part">PARTIAL</span></h3>
+`<h3 style="font-size:14px;font-weight:600;margin:18px 0 4px;">Fabric Matrix — Drapery <span class="pill ok">COMPLETE</span></h3>
  <div class="tablewrap"><table id="fabric-matrix">
    <tr><th>Fabric</th><th>Colors</th><th>Composition</th><th>Price group</th><th>Weight</th><th>Width</th><th>H / V repeat</th><th>Railroad</th><th>Transparency</th><th>Liner compat.</th><th>Size limits</th></tr>
-   <tr><td>OUTLANDER</td><td>38</td><td>100% Polyester</td><td>1 · A</td><td>300 g</td><td>—</td><td>—</td><td>—</td><td>Fabric</td><td>—</td><td>Same as product</td></tr>
-   <tr><td>SOHO</td><td>14</td><td>100% Polyester</td><td>2 · B</td><td>94–129 g</td><td>—</td><td>—</td><td>—</td><td>Sheer</td><td>—</td><td>Same as product</td></tr>
-   <tr><td>LAZULI</td><td>8</td><td>100% Polyester</td><td>2 · B</td><td>283 g</td><td>—</td><td>—</td><td>—</td><td>Semi Transparent</td><td>—</td><td>Same as product</td></tr>
-   <tr><td>PIERO</td><td>9</td><td>80% Acrylic, 20% Wool</td><td>2 · B</td><td>340 g</td><td>—</td><td>—</td><td>—</td><td>Sheer</td><td>—</td><td>Same as product</td></tr>
-   <tr><td>CARILLO</td><td>9</td><td>100% Polyester</td><td>3 · C</td><td>279 g</td><td>—</td><td>—</td><td>—</td><td>Semi Transparent</td><td>—</td><td>Same as product</td></tr>
-   <tr><td>NOMAD</td><td>20</td><td>Cotton-rich blends (35–40% cotton + PES/viscose/linen/Tencel)</td><td>3 · C</td><td>268–290 g</td><td>—</td><td>—</td><td>—</td><td>Fabric</td><td>—</td><td>Same as product</td></tr>
-   <tr><td>ARROW</td><td>4</td><td>100% Polyester</td><td>4 · D</td><td>309 g</td><td>—</td><td>—</td><td>—</td><td>Semi Transparent</td><td>—</td><td>Same as product</td></tr>
-   <tr><td>PERISCOPE</td><td>25</td><td>100% Linen</td><td>4 · D</td><td>270 g</td><td>—</td><td>—</td><td>—</td><td>Linen</td><td>—</td><td>Same as product</td></tr>
+   <tr><td>OUTLANDER</td><td>38</td><td>100% Polyester</td><td>1 · A</td><td>300 g</td><td>3 m</td><td>Vertical</td><td>No (directional)</td><td>Fabric</td><td>White LF + Blackout</td><td>Same as product</td></tr>
+   <tr><td>SOHO</td><td>14</td><td>100% Polyester</td><td>2 · B</td><td>94–129 g</td><td>3 m</td><td>Vertical</td><td>No (directional)</td><td>Sheer</td><td>White LF + Blackout</td><td>Same as product</td></tr>
+   <tr><td>LAZULI</td><td>8</td><td>100% Polyester</td><td>2 · B</td><td>283 g</td><td>3 m</td><td>Vertical</td><td>No (directional)</td><td>Semi Transparent</td><td>White LF + Blackout</td><td>Same as product</td></tr>
+   <tr><td>PIERO</td><td>9</td><td>80% Acrylic, 20% Wool</td><td>2 · B</td><td>340 g</td><td>3 m</td><td>Vertical</td><td>No (directional)</td><td>Sheer</td><td>White LF + Blackout</td><td>Same as product</td></tr>
+   <tr><td>CARILLO</td><td>9</td><td>100% Polyester</td><td>3 · C</td><td>279 g</td><td>3 m</td><td>Vertical</td><td>No (directional)</td><td>Semi Transparent</td><td>White LF + Blackout</td><td>Same as product</td></tr>
+   <tr><td>NOMAD</td><td>20</td><td>Cotton-rich blends (35–40% cotton + PES/viscose/linen/Tencel)</td><td>3 · C</td><td>268–290 g</td><td>3 m</td><td>Vertical</td><td>No (directional)</td><td>Fabric</td><td>White LF + Blackout</td><td>Same as product</td></tr>
+   <tr><td>ARROW</td><td>4</td><td>100% Polyester</td><td>4 · D</td><td>309 g</td><td>3 m</td><td>Vertical</td><td>No (directional)</td><td>Semi Transparent</td><td>White LF + Blackout</td><td>Same as product</td></tr>
+   <tr><td>PERISCOPE</td><td>25</td><td>100% Linen</td><td>4 · D</td><td>270 g</td><td>3 m</td><td>Vertical</td><td>No (directional)</td><td>Linen</td><td>White LF + Blackout</td><td>Same as product</td></tr>
  </table></div>
- <p class="fillnote">127 colorways total — full per-color list (with color codes) lives in the drapery configurator. “—” columns (width, repeats, railroad, liner compatibility) still awaited.</p>`],
+ <p class="fillnote">127 colorways total — full per-color list (with color codes) lives in the drapery configurator. All fabrics: 3 m width · vertical repeat · directional (no railroad) · compatible with both White (light-filtering) and Blackout liners.</p>`],
 ["3 · Hardware & Track Program","hardware",[
   {q:"What collections, styles, finishes/colors are available (rods, tracks, finials, rings, brackets)?",status:"wait"},
   {q:"What are the hardware dimensions?",status:"wait"},

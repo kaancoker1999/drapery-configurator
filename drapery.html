@@ -246,8 +246,8 @@ const DHW = {"rod": [9.2, 12.2, 15.3, 18.3, 21.4, 24.4, 27.5, 30.5, 33.6, 36.6, 
 
 
 const LINERS = [
-  ["none","No Liner","Light filtering, fabric only"],
-  ["white","White Liner","Room darkening + UV protection"],
+  ["none","No Liner","Fabric only, maximum light"],
+  ["white","White Light-Filtering Liner","Softens light + UV protection"],
   ["blackout","Blackout Liner","Blocks light for full privacy"],
 ];
 const PRODUCT_TYPES = [
@@ -523,13 +523,13 @@ $("#steps").innerHTML = [
 
   stepCard(8,"Liner","Liners add light control, privacy and body to the fabric.",
     optButtons("front.liner", LINERS) + `
-    <details class="more"><summary>Liner construction &amp; light control <span class="tag-draft">DRAFT</span></summary><div class="more-body">
+    <details class="more"><summary>Liner options &amp; light control</summary><div class="more-body">
       <ul>
         <li><b>No liner:</b> the face fabric alone — brightest, shows the fabric's natural translucency.</li>
-        <li><b>White liner:</b> light-filtering; adds body, daytime privacy and UV protection for the face fabric. Sewn-in, hemmed separately.</li>
-        <li><b>Blackout liner:</b> 3-pass blackout; blocks 99%+ of light. Sewn along the sides only to prevent puckering.</li>
+        <li><b>White light-filtering liner:</b> softens daylight, adds body and daytime privacy, and protects the face fabric from UV.</li>
+        <li><b>Blackout liner:</b> blocks light for full privacy and room darkening.</li>
       </ul>
-      <p>Liners are priced from their own size table (see the price breakdown below). Fabric-specific liner restrictions pending from manufacturer.</p>
+      <p>Two liners are offered — White (light-filtering) and Blackout — and both are compatible with every fabric. Liners are priced from their own size table (see the price breakdown below).</p>
     </div></details>`),
 
   stepCard(9,"Panel configuration","A single panel, or a front-and-back pair — e.g. sheer behind, decorative in front.",
