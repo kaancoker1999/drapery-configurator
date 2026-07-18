@@ -118,26 +118,36 @@ const SECTIONS = [
    a:`<b>1″ total</b> on finished dimensions.`},
 ]],
 ["2 · Fabric Specifications","fabrics",[
-  {q:"What are the fabric names and colors?",status:"part",
-   a:`Roman shade line only: <b>20 fabrics</b> — OPIUM (8 colorways) and OSLO (12 colorways), with color codes. <b>For drapery no fabric list exists yet</b> — the 120 colors in the configurator are placeholders.`},
-  {q:"What is the material composition of each fabric?",status:"wait"},
-  {q:"What is the price group of each fabric?",status:"part",
-   a:`Roman: OPIUM and OSLO are both <b>Group 1</b>. Drapery: groups A–D exist in the pricing workbook, but the fabric→group mapping has not been provided (current configurator mapping is a placeholder).`},
-  {q:"What is the fabric weight (gsm)?",status:"wait"},
+  {q:"What are the fabric names and colors?",status:"ok",
+   a:`<b>Drapery: 127 fabrics across 8 collections</b> (from Kaan's fabric workbook, with color codes): OUTLANDER (38), PERISCOPE (25), NOMAD (20), SOHO (14), PIERO (9), CARILLO (9), LAZULI (8), ARROW (4). Roman shades: 20 fabrics — OPIUM (8) and OSLO (12). Full list in the matrix below and live in the configurator.`},
+  {q:"What is the material composition of each fabric?",status:"ok",
+   a:`Provided per collection — see the matrix below (e.g. OUTLANDER 100% polyester; PERISCOPE 100% linen; PIERO 80% acrylic / 20% wool; NOMAD cotton-rich blends).`},
+  {q:"What is the price group of each fabric?",status:"ok",
+   a:`<b>Drapery confirmed:</b> Group 1 → A: OUTLANDER · Group 2 → B: SOHO, LAZULI, PIERO · Group 3 → C: CARILLO, NOMAD · Group 4 → D: ARROW, PERISCOPE. Roman: OPIUM &amp; OSLO = Group 1.`},
+  {q:"What is the fabric weight (gsm)?",status:"ok",
+   a:`Provided per fabric — 94–129 g (SOHO sheers) up to 340 g (PIERO). See the matrix below.`},
   {q:"What is the fabric width?",status:"wait"},
   {q:"What are the horizontal / vertical repeats?",status:"wait"},
   {q:"Which fabrics are railroadable?",status:"wait"},
-  {q:"What is each fabric's transparency / light-control classification?",status:"wait"},
+  {q:"What is each fabric's transparency / light-control classification?",status:"ok",
+   a:`Provided per fabric: <b>Sheer</b> (SOHO, PIERO), <b>Semi Transparent</b> (LAZULI, CARILLO, ARROW), <b>Fabric</b> (OUTLANDER, NOMAD), <b>Linen</b> (PERISCOPE).`},
   {q:"Which liners are compatible with each fabric?",status:"wait"},
   {q:"Are there per-fabric size limitations?",status:"ok",
    a:`<b>No — all fabrics share the same product limitations</b> (18″–192″ W × 24″–120″ H).`},
 ],
-`<h3 style="font-size:14px;font-weight:600;margin:18px 0 4px;">Fabric Matrix <span class="pill part">BEING FILLED</span></h3>
+`<h3 style="font-size:14px;font-weight:600;margin:18px 0 4px;">Fabric Matrix — Drapery <span class="pill part">PARTIAL</span></h3>
  <div class="tablewrap"><table id="fabric-matrix">
-   <tr><th>Fabric</th><th>Colors</th><th>Composition</th><th>Price group</th><th>Weight (g/m²)</th><th>Width</th><th>H / V repeat</th><th>Railroad</th><th>Transparency</th><th>Liner compat.</th><th>Size limits</th></tr>
-   <tr><td colspan="11" style="color:var(--muted);font-weight:400;text-align:center;padding:16px 0;">— rows will be added as Kaan supplies the data —</td></tr>
+   <tr><th>Fabric</th><th>Colors</th><th>Composition</th><th>Price group</th><th>Weight</th><th>Width</th><th>H / V repeat</th><th>Railroad</th><th>Transparency</th><th>Liner compat.</th><th>Size limits</th></tr>
+   <tr><td>OUTLANDER</td><td>38</td><td>100% Polyester</td><td>1 · A</td><td>300 g</td><td>—</td><td>—</td><td>—</td><td>Fabric</td><td>—</td><td>Same as product</td></tr>
+   <tr><td>SOHO</td><td>14</td><td>100% Polyester</td><td>2 · B</td><td>94–129 g</td><td>—</td><td>—</td><td>—</td><td>Sheer</td><td>—</td><td>Same as product</td></tr>
+   <tr><td>LAZULI</td><td>8</td><td>100% Polyester</td><td>2 · B</td><td>283 g</td><td>—</td><td>—</td><td>—</td><td>Semi Transparent</td><td>—</td><td>Same as product</td></tr>
+   <tr><td>PIERO</td><td>9</td><td>80% Acrylic, 20% Wool</td><td>2 · B</td><td>340 g</td><td>—</td><td>—</td><td>—</td><td>Sheer</td><td>—</td><td>Same as product</td></tr>
+   <tr><td>CARILLO</td><td>9</td><td>100% Polyester</td><td>3 · C</td><td>279 g</td><td>—</td><td>—</td><td>—</td><td>Semi Transparent</td><td>—</td><td>Same as product</td></tr>
+   <tr><td>NOMAD</td><td>20</td><td>Cotton-rich blends (35–40% cotton + PES/viscose/linen/Tencel)</td><td>3 · C</td><td>268–290 g</td><td>—</td><td>—</td><td>—</td><td>Fabric</td><td>—</td><td>Same as product</td></tr>
+   <tr><td>ARROW</td><td>4</td><td>100% Polyester</td><td>4 · D</td><td>309 g</td><td>—</td><td>—</td><td>—</td><td>Semi Transparent</td><td>—</td><td>Same as product</td></tr>
+   <tr><td>PERISCOPE</td><td>25</td><td>100% Linen</td><td>4 · D</td><td>270 g</td><td>—</td><td>—</td><td>—</td><td>Linen</td><td>—</td><td>Same as product</td></tr>
  </table></div>
- <p class="fillnote">Reserved for the complete fabric matrix. Send fabrics one by one or as a list; each will be added as a row here.</p>`],
+ <p class="fillnote">127 colorways total — full per-color list (with color codes) lives in the drapery configurator. “—” columns (width, repeats, railroad, liner compatibility) still awaited.</p>`],
 ["3 · Hardware & Track Program","hardware",[
   {q:"What collections, styles, finishes/colors are available (rods, tracks, finials, rings, brackets)?",status:"wait"},
   {q:"What are the hardware dimensions?",status:"wait"},
